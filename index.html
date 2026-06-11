@@ -3,40 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cloud CI/CD Demo - Chunkbase Clone</title>
+    <title>Cloud CI/CD Demo - Interactive Chunkbase</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
-
-    <header class="navbar">
+<body class="dark-theme"> <header class="navbar">
         <div class="logo">Chunkbase <span class="demo-tag">CI/CD Demo</span></div>
-        <nav>
-            <ul>
-                <li><a href="#" class="active">Apps</a></li>
-                <li><a href="#">Seeds</a></li>
-                <li><a href="#">Tutorials</a></li>
-            </ul>
-        </nav>
+        <div class="nav-right">
+            <div id="datetime-display" class="datetime">Đang tải thời gian...</div>
+            <button id="theme-toggle" class="btn-theme">☀️ Chế độ Sáng</button>
+        </div>
     </header>
 
     <main class="container">
-        <h1>Minecraft Seed Map Viewer</h1>
+        <h1>Minecraft Seed Map Viewer (Interactive)</h1>
         
         <section class="control-panel">
             <div class="input-group">
                 <label for="seed">Seed:</label>
-                <input type="text" id="seed" placeholder="Nhập mã seed tại đây..." value="1234567890">
+                <input type="text" id="seed" placeholder="Nhập mã seed..." value="1234567890">
             </div>
             <div class="input-group">
                 <label for="version">Phiên bản:</label>
                 <select id="version">
-                    <option>Java 1.20 or newer</option>
-                    <option>Java 1.19</option>
-                    <option>Bedrock 1.20</option>
+                    <option>Java 1.21.5</option>
+                    <option>Java 1.20</option>
+                    <option>Bedrock 1.21</option>
                 </select>
             </div>
-            <button class="btn-find" onclick="alert('Đang tìm kiếm cấu trúc thế giới...')">Tìm kiếm</button>
+            <button class="btn-find" onclick="alert('Đang quét quần xã sinh vật cho Seed này!')">Tìm kiếm</button>
         </section>
+
+        <div class="widgets-grid">
+            <section class="widget-box calculator">
+                <h3>🧮 Máy tính số</h3>
+                <input type="text" id="calc-screen" readonly placeholder="0">
+                <div class="calc-buttons">
+                    <button onclick="clearCalc()" class="btn-clear">C</button>
+                    <button onclick="pressCalc('/')">/</button>
+                    <button onclick="pressCalc('*')">*</button>
+                    <button onclick="pressCalc('-')">-</button>
+                    <button onclick="pressCalc('7')">7</button>
+                    <button onclick="pressCalc('8')">8</button>
+                    <button onclick="pressCalc('9')">9</button>
+                    <button onclick="pressCalc('+')">+</button>
+                    <button onclick="pressCalc('4')">4</button>
+                    <button onclick="pressCalc('5')">5</button>
+                    <button onclick="pressCalc('6')">6</button>
+                    <button id="btn-equal" onclick="calculateResult()">=</button>
+                    <button onclick="pressCalc('1')">1</button>
+                    <button onclick="pressCalc('2')">2</button>
+                    <button onclick="pressCalc('3')">3</button>
+                    <button onclick="pressCalc('0')">0</button>
+                </div>
+            </section>
+
+            <section class="widget-box notes">
+                <h3>📝 Ghi chú tọa độ / Seed</h3>
+                <textarea id="notes-area" placeholder="Nhập ghi chú của bạn tại đây (tự động lưu)..."></textarea>
+            </section>
+        </div>
 
         <section class="map-wrapper">
             <div class="map-grid">
@@ -55,20 +80,21 @@
             </div>
         </section>
 
-        <section class="features-filter">
-            <h3>Hiển thị cấu trúc</h3>
-            <div class="checkbox-group">
-                <label><input type="checkbox" checked> Thôn làng (Villages)</label>
-                <label><input type="checkbox" checked> Ngục tối (Strongholds)</label>
-                <label><input type="checkbox"> Đền thờ sa mạc</label>
-                <label><input type="checkbox" checked> Slime Chunks</label>
+        <section class="dino-game-section">
+            <h3>🦖 Khủng long vượt xương rồng (Bấm Space/Cách hoặc Click vào game để Nhảy)</h3>
+            <div id="game-container">
+                <div id="dino"></div>
+                <div id="cactus"></div>
+                <div id="score-board">Điểm: <span id="score">0</span></div>
             </div>
+            <button class="btn-find" onclick="startGame()" style="margin-top: 10px; display: block; width: 100%;">Bắt đầu lại Game</button>
         </section>
     </main>
 
     <footer>
-        <p>© 2026 Cloud CI/CD Demo - Bài thực hành GitHub Actions tự động hóa.</p>
+        <p>© 2026 Cloud CI/CD Demo - Website tích hợp tương tác đa năng.</p>
     </footer>
 
+    <script src="script.js"></script>
 </body>
 </html>
