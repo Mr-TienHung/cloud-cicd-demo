@@ -99,14 +99,27 @@
         </div>
     </main>
 
-    <section class="container dino-section">
-        <div class="card">
-            <h2>🦖 Trò chơi Khủng long (Chỉ chạy khi nhấn Bắt đầu)</h2>
+    <section class="container games-arcade-section">
+        <div class="card snake-card">
+            <h2>🐍 Trò chơi Rắn Săn Mồi (Sử dụng phím Mũi tên để di chuyển)</h2>
+            <div class="snake-game-container">
+                <canvas id="snakeCanvas" width="400" height="400"></canvas>
+                <div id="snake-overlay" class="game-overlay">
+                    <button id="start-snake-btn" class="btn-start-game">▶ Bắt đầu chơi Rắn</button>
+                </div>
+            </div>
+            <div class="game-controls-info">
+                <span id="snake-score">Điểm Rắn: 0</span>
+            </div>
+        </div>
+
+        <div class="card dino-card">
+            <h2>🦖 Trò chơi Khủng long (Bấm 'Dấu cách' để nhảy khi đã Bắt đầu)</h2>
             <div class="dino-game-container">
                 <div id="dino"></div>
                 <div id="cactus"></div>
-                <div id="dino-overlay" class="dino-overlay">
-                    <button id="start-game-btn" class="btn-start-dino">▶ Bắt đầu chơi</button>
+                <div id="dino-overlay" class="game-overlay">
+                    <button id="start-game-btn" class="btn-start-game">▶ Bắt đầu chơi Dino</button>
                 </div>
             </div>
             <div class="dino-controls">
