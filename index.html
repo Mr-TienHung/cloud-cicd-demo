@@ -1,131 +1,87 @@
-/* ================= TÚT LẠI TOÀN BỘ NÚT BẤM VÀ Ô NHẬP ĐẸP HƠN ================= */
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud CI/CD Demo - Math App</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-/* Ô hiển thị và ô nhập liệu */
-#calc-screen, #game-answer {
-    width: 100%;
-    padding: 14px;
-    background: linear-gradient(135deg, #1e1e2e, #252538);
-    border: 2px solid #3f51b5;
-    color: #00ffcc; /* Chữ màu neon nổi bật */
-    border-radius: 12px;
-    font-size: 20px;
-    font-family: 'Courier New', monospace;
-    font-weight: bold;
-    margin-bottom: 15px;
-    outline: none;
-    box-shadow: inset 0 2px 5px rgba(0,0,0,0.5), 0 0 10px rgba(63, 81, 181, 0.3);
-    text-align: right;
-    letter-spacing: 1px;
-}
-#game-answer {
-    text-align: center; /* Giữa màn hình đối với tính nhẩm */
-}
+    <div class="container">
+        <div class="card calculator">
+            <h2>🧮 Máy tính Số học</h2>
+            <input type="text" id="calc-screen" placeholder="0" readonly>
+            
+            <div class="calc-buttons">
+                <button onclick="clearCalc()" class="btn-calc-clear">C</button>
+                <button onclick="pressCalc('/')">/</button>
+                <button onclick="pressCalc('*')">*</button>
+                <button onclick="pressCalc('-')">-</button>
+                
+                <button onclick="pressCalc('7')">7</button>
+                <button onclick="pressCalc('8')">8</button>
+                <button onclick="pressCalc('9')">9</button>
+                <button onclick="pressCalc('+')">+</button>
+                
+                <button onclick="pressCalc('4')">4</button>
+                <button onclick="pressCalc('5')">5</button>
+                <button onclick="pressCalc('6')">6</button>
+                
+                <button onclick="pressCalc('1')">1</button>
+                <button onclick="pressCalc('2')">2</button>
+                <button onclick="pressCalc('3')">3</button>
+                <button onclick="calculateResult()" class="btn-calc-equal">=</button>
+                
+                <button onclick="pressCalc('0')" style="grid-column: span 2;">0</button>
+                <button onclick="pressCalc('.')">.</button>
+            </div>
+        </div>
 
-/* Bàn phím Máy tính Số học */
-.calc-buttons {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 10px; /* Tăng khoảng cách cho thoáng */
-}
-.calc-buttons button {
-    padding: 15px;
-    font-size: 18px;
-    font-weight: bold;
-    cursor: pointer;
-    border: none;
-    background: linear-gradient(135deg, #2c2c3e, #3a3a52);
-    color: #ffffff;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-    transition: all 0.15s ease;
-}
-.calc-buttons button:hover {
-    background: linear-gradient(135deg, #3a3a52, #4e4e6d);
-    transform: translateY(-2px);
-}
-.calc-buttons button:active {
-    transform: translateY(1px);
-    box-shadow: 0 2px 3px rgba(0,0,0,0.2);
-}
+        <div class="card math-game">
+            <h2>🎮 Thách thức Tính nhẩm</h2>
+            <div class="score-board">Điểm số: <span id="game-score">0</span></div>
+            <div class="game-box">
+                <div id="question">Đang tải...</div>
+                <input type="text" id="game-answer" placeholder="Bấm phím số bên dưới..." readonly>
+                
+                <div class="game-pad-grid">
+                    <button onclick="pressMathPad('1')">1</button>
+                    <button onclick="pressMathPad('2')">2</button>
+                    <button onclick="pressMathPad('3')">3</button>
+                    <button onclick="pressMathPad('4')">4</button>
+                    <button onclick="pressMathPad('5')">5</button>
+                    <button onclick="pressMathPad('6')">6</button>
+                    <button onclick="pressMathPad('7')">7</button>
+                    <button onclick="pressMathPad('8')">8</button>
+                    <button onclick="pressMathPad('9')">9</button>
+                    <button onclick="pressMathPad('-')">-</button>
+                    <button onclick="pressMathPad('0')">0</button>
+                    <button onclick="clearMathPad()" class="btn-pad-clear">Xóa</button>
+                </div>
 
-/* Nút xóa (C) của máy tính */
-.calc-buttons .btn-calc-clear {
-    background: linear-gradient(135deg, #d32f2f, #f44336);
-    color: white;
-}
-.calc-buttons .btn-calc-clear:hover {
-    background: linear-gradient(135deg, #b71c1c, #d32f2f);
-}
+                <button id="submit-answer-btn" class="btn-beauty btn-submit" style="width: 100%; margin-top: 15px;">Gửi kết quả</button>
+                <div id="game-feedback"></div>
+            </div>
+        </div>
 
-/* Nút bằng (=) của máy tính */
-.calc-buttons .btn-calc-equal {
-    background: linear-gradient(135deg, #1565c0, #2196f3);
-    color: white;
-    grid-row: span 2;
-    height: 100%;
-}
-.calc-buttons .btn-calc-equal:hover {
-    background: linear-gradient(135deg, #0d47a1, #1565c0);
-}
+        <div class="card notes-section">
+            <h2>📝 Nhật ký Ghi chú</h2>
+            <textarea id="note-input" placeholder="Nhập nhanh công thức hoặc ghi chú vào đây..."></textarea>
+            <button id="save-note-btn" class="btn-beauty btn-note" style="width: 100%; margin-top: 10px;">Lưu Ghi Chú</button>
+            <ul id="notes-list"></ul>
+        </div>
+    </div>
 
+    <div id="game-over-modal" class="modal">
+        <div class="modal-content">
+            <h2>💥 GAME OVER 💥</h2>
+            <p>Thời gian đã hết! Bạn rất cố gắng rồi.</p>
+            <div class="final-score">Tổng điểm: <span id="final-score-val">0</span></div>
+            <button onclick="restartGame()" class="btn-beauty btn-restart">🔄 Chơi lại</button>
+        </div>
+    </div>
 
-/* Bàn phím số Thách thức tính nhẩm */
-.game-pad-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
-}
-.game-pad-grid button {
-    padding: 12px;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    border: none;
-    background: linear-gradient(135deg, #37474f, #4f5b66);
-    color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-    transition: all 0.15s ease;
-}
-.game-pad-grid button:hover {
-    background: linear-gradient(135deg, #4f5b66, #62727b);
-    transform: translateY(-2px);
-}
-.game-pad-grid button:active {
-    transform: translateY(1px);
-    box-shadow: 0 2px 3px rgba(0,0,0,0.2);
-}
-
-/* Nút xóa bên tính nhẩm */
-.game-pad-grid .btn-pad-clear {
-    background: linear-gradient(135deg, #e65100, #ff9800);
-    color: white;
-}
-.game-pad-grid .btn-pad-clear:hover {
-    background: linear-gradient(135deg, #c64100, #e65100);
-}
-
-/* Đồng bộ nút Gửi kết quả và Lưu ghi chú to, đẹp, bo tròn chuẩn chỉnh */
-.btn-beauty {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 12px 24px;
-    font-size: 15px;
-    font-weight: bold;
-    border: none;
-    border-radius: 50px; /* Bo cong hoàn hảo tròn xoe như ảnh Chơi lại */
-    color: #ffffff;
-    cursor: pointer;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    transition: all 0.2s ease;
-    outline: none;
-}
-.btn-submit {
-    background: linear-gradient(135deg, #1b5e20, #4caf50);
-}
-.btn-submit:hover {
-    background: linear-gradient(135deg, #124116, #2e7d32);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(76, 175, 80, 0.4);
-}
+    <script src="script.js"></script>
+</body>
+</html>
