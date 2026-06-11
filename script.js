@@ -1,11 +1,11 @@
-// ================= 1. ĐỒNG HỒ NGÀY & GIỜ =================
+// ================= 1. ĐỒNG HỒ HỆ THỐNG =================
 function updateClock() {
     const now = new Date();
     document.getElementById('clock').innerText = `${now.toLocaleDateString('vi-VN')} - ${now.toLocaleTimeString('vi-VN')}`;
 }
 setInterval(updateClock, 1000); updateClock();
 
-// ================= 2. CHẾ ĐỘ SÁNG / TỐI =================
+// ================= 2. CHẾ ĐỘ GIAO DIỆN SÁNG / TỐI =================
 const themeToggle = document.getElementById('theme-toggle');
 themeToggle.addEventListener('click', () => {
     if (document.body.classList.contains('dark-theme')) {
@@ -17,7 +17,7 @@ themeToggle.addEventListener('click', () => {
     }
 });
 
-// ================= 3. MÁY TÍNH BỎ TÚI =================
+// ================= 3. MÁY TÍNH SỐ HỌC =================
 const calcScreen = document.getElementById('calc-screen');
 function pressCalc(value) { calcScreen.value += value; }
 function clearCalc() { calcScreen.value = ''; }
@@ -26,31 +26,59 @@ function calculateResult() {
     catch (e) { calcScreen.value = 'Lỗi biểu thức'; }
 }
 
-// ================= 4. THÁCH THỨC TÍNH NHẨM =================
+// ================= 4. THÁCH THỨC TÍNH NHẨM (TÍCH HỢP PHÍM BẤM) =================
 let mathScore = 0, correctAnswer = 0;
+const gameAnswerInput = document.getElementById('game-answer');
+
 function generateQuestion() {
     const n1 = Math.floor(Math.random() * 20) + 1, n2 = Math.floor(Math.random() * 20) + 1;
     const ops = ['+', '-', '*'], op = ops[Math.floor(Math.random() * ops.length)];
     document.getElementById('question').innerText = `${n1} ${op} ${n2} = ?`;
     correctAnswer = op === '+' ? n1 + n2 : op === '-' ? n1 - n2 : n1 * n2;
 }
+function pressPad(num) { gameAnswerInput.value += num; }
+function clearPad() { gameAnswerInput.value = ''; }
+
 function checkGameAnswer() {
-    const ans = parseInt(document.getElementById('game-answer').value), fb = document.getElementById('game-feedback');
+    const ans = parseInt(gameAnswerInput.value), fb = document.getElementById('game-feedback');
+    if (isNaN(ans)) return;
     if (ans === correctAnswer) { mathScore += 10; fb.innerText = "Chính xác! +10đ 🎉"; fb.style.color = "#4caf50"; } 
     else { mathScore = Math.max(0, mathScore - 5); fb.innerText = `Sai rồi! Đáp án: ${correctAnswer} 😢`; fb.style.color = "#f44336"; }
     document.getElementById('game-score').innerText = mathScore;
-    document.getElementById('game-answer').value = ''; generateQuestion();
+    gameAnswerInput.value = ''; generateQuestion();
 }
 document.getElementById('submit-answer-btn').addEventListener('click', checkGameAnswer);
-document.getElementById('game-answer').addEventListener('keypress', (e) => { if(e.key==='Enter') checkGameAnswer(); });
+gameAnswerInput.addEventListener('keypress', (e) => { if(e.key==='Enter') checkGameAnswer(); });
 generateQuestion();
 
-// ================= 5. GHI CHÚ (LOCALSTORAGE) =================
+// ================= 5. SỔ TAY GHI CHÚ (HỖ TRỢ THÊM VÀ XÓA MỤC) =================
 const noteInput = document.getElementById('note-input'), notesList = document.getElementById('notes-list');
 let savedNotes = JSON.parse(localStorage.getItem('my_web_notes')) || [];
+
 function renderNotes() {
     notesList.innerHTML = '';
-    savedNotes.forEach(n => { const li = document.createElement('li'); li.innerText = n; notesList.appendChild(li); });
+    savedNotes.forEach((note, index) => {
+        const li = document.createElement('li');
+        li.className = 'note-item';
+        
+        const textSpan = document.createElement('span');
+        textSpan.className = 'note-text';
+        textSpan.innerText = note;
+        
+        const deleteBtn = document.createElement('button');
+        deleteBtn.className = 'btn-delete-note';
+        deleteBtn.innerText = 'Xóa';
+        deleteBtn.onclick = () => deleteNote(index);
+        
+        li.appendChild(textSpan);
+        li.appendChild(deleteBtn);
+        notesList.appendChild(li);
+    });
+}
+function deleteNote(index) {
+    savedNotes.splice(index, 1);
+    localStorage.setItem('my_web_notes', JSON.stringify(savedNotes));
+    renderNotes();
 }
 document.getElementById('save-note-btn').addEventListener('click', () => {
     const t = noteInput.value.trim();
@@ -58,8 +86,7 @@ document.getElementById('save-note-btn').addEventListener('click', () => {
 });
 renderNotes();
 
-
-// ================= 6. SỬA LỖI KHỦNG LONG VA CHẠM CHUẨN XÁC =================
+// ================= 6. GAME KHỦNG LONG (ĐÃ CHỈNH CHẬM LẠI) =================
 const dino = document.getElementById('dino'), cactus = document.getElementById('cactus');
 const jumpBtn = document.getElementById('jump-btn'), dinoOverlay = document.getElementById('dino-overlay');
 const startDinoBtn = document.getElementById('start-game-btn');
@@ -69,57 +96,51 @@ let dinoScore = 0, cactusPosition = 100, isJumping = false, isDinoAlive = false,
 function jump() {
     if (!isJumping && isDinoAlive) {
         isJumping = true;
-        dino.style.transition = "bottom 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94)";
-        dino.style.bottom = "85px"; // Chiều cao nhảy lên
+        dino.style.transition = "bottom 0.28s cubic-bezier(0.25, 0.46, 0.45, 0.94)";
+        dino.style.bottom = "85px";
         setTimeout(() => {
-            dino.style.transition = "bottom 0.22s cubic-bezier(0.55, 0.085, 0.68, 0.53)";
+            dino.style.transition = "bottom 0.24s cubic-bezier(0.55, 0.085, 0.68, 0.53)";
             dino.style.bottom = "0px";
-            setTimeout(() => { isJumping = false; }, 220);
-        }, 250);
+            setTimeout(() => { isJumping = false; }, 240);
+        }, 280);
     }
 }
 
-// BẮT SỰ KIỆN KHÔNG BỊ LỖI CHAT: Chỉ khi con trỏ KHÔNG nằm trong ô nhập dữ liệu thì mới bắt Space để nhảy
 document.addEventListener('keydown', (e) => { 
     if (e.code === 'Space') { 
-        if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') {
-            return; // Đang gõ chữ thì cho phép cách bình thường
-        }
-        e.preventDefault(); 
-        jump(); 
+        if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') return;
+        e.preventDefault(); jump(); 
     } 
 });
 jumpBtn.addEventListener('click', jump);
 
 startDinoBtn.addEventListener('click', () => {
     dinoOverlay.style.display = 'none';
-    isDinoAlive = true;
-    jumpBtn.disabled = false;
-    cactusPosition = 100;
-    dinoScore = 0;
+    isDinoAlive = true; jumpBtn.disabled = false;
+    cactusPosition = 100; dinoScore = 0;
     document.getElementById('dino-score').innerText = `Điểm Dino: 0`;
     if(!dinoId) dinoId = requestAnimationFrame(dinoLoop);
 });
 
 function dinoLoop() {
     if (!isDinoAlive) { dinoId = null; return; }
-    cactusPosition -= 1.6; // Tốc độ di chuyển cây
+    
+    // Đã hạ tốc độ: cactusPosition trừ 1.0 mỗi frame thay vì 1.6 như bản cũ để game chạy chậm lại
+    cactusPosition -= 1.0; 
+    
     if (cactusPosition < -4) {
         cactusPosition = 100; dinoScore += 1;
         document.getElementById('dino-score').innerText = `Điểm Dino: ${dinoScore}`;
     }
     cactus.style.left = cactusPosition + "%";
 
-    // XỬ LÝ VA CHẠM CHUẨN XÁC: Đổi sang Pixel tương đối của khung chứa
     const containerWidth = document.querySelector('.dino-game-container').clientWidth;
     const cactusLeftPx = (cactusPosition / 100) * containerWidth;
     const dinoBottom = parseInt(window.getComputedStyle(dino).getPropertyValue('bottom'));
 
-    // Khủng long nằm ở vị trí Left cố định: 50px đến 74px (Rộng 24px). Cây rộng 14px.
-    // Chỉ kích hoạt va chạm khi Tọa độ X trùng nhau VÀ Khủng long chưa nhảy cao hơn cây (28px).
+    // Kiểm tra va chạm hitbox chính xác theo pixel thực tế
     if (cactusLeftPx >= 50 && cactusLeftPx <= 74 && dinoBottom <= 28) {
-        isDinoAlive = false;
-        jumpBtn.disabled = true;
+        isDinoAlive = false; jumpBtn.disabled = true;
         dinoOverlay.style.display = 'flex';
         startDinoBtn.innerText = "🔄 Chơi lại";
         alert(`Game Over Dino! Điểm của bạn: ${dinoScore}`);
@@ -127,17 +148,15 @@ function dinoLoop() {
     dinoId = requestAnimationFrame(dinoLoop);
 }
 
-
-// ================= 7. THÊM TRÒ CHƠI RẮN SĂN MỒI (SNAKE) =================
+// ================= 7. GAME RẮN SĂN MỒI (ĐÃ CHỈNH CHẬM LẠI) =================
 const canvas = document.getElementById("snakeCanvas");
 const ctx = canvas.getContext("2d");
 const snakeOverlay = document.getElementById("snake-overlay");
 const startSnakeBtn = document.getElementById("start-snake-btn");
 
-const box = 20; // Kích thước mỗi ô vuông
+const box = 20;
 let snake, food, snakeScore, d, snakeGameInterval = null;
 
-// Điều khiển hướng di chuyển của rắn bằng các phím mũi tên
 document.addEventListener("keydown", (e) => {
     if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') return;
     if (e.key === "ArrowLeft" && d !== "RIGHT") d = "LEFT";
@@ -159,9 +178,11 @@ function initSnakeGame() {
     };
     snakeScore = 0;
     document.getElementById('snake-score').innerText = `Điểm Rắn: 0`;
-    d = "RIGHT"; // Hướng ban đầu
+    d = "RIGHT";
     if(snakeGameInterval) clearInterval(snakeGameInterval);
-    snakeGameInterval = setInterval(drawSnake, 130); // Tốc độ rắn chạy
+    
+    // Đã hạ tốc độ: Tăng thời gian delay chu kỳ từ 130ms lên 180ms giúp Rắn di chuyển chậm hơn rõ rệt
+    snakeGameInterval = setInterval(drawSnake, 180); 
 }
 
 function collision(head, array) {
@@ -172,35 +193,29 @@ function collision(head, array) {
 }
 
 function drawSnake() {
-    // Vẽ nền đen cho bàn cờ
     ctx.fillStyle = "#000000";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // Vẽ thân rắn
     for (let i = 0; i < snake.length; i++) {
-        ctx.fillStyle = i === 0 ? "#4caf50" : "#81c784"; // Đầu màu đậm, thân nhạt hơn
+        ctx.fillStyle = i === 0 ? "#4caf50" : "#81c784";
         ctx.fillRect(snake[i].x, snake[i].y, box, box);
         ctx.strokeStyle = "#000";
         ctx.strokeRect(snake[i].x, snake[i].y, box, box);
     }
 
-    // Vẽ Quả táo (Thức ăn màu đỏ)
     ctx.fillStyle = "#e53935";
     ctx.beginPath();
     ctx.arc(food.x + box/2, food.y + box/2, box/2 - 2, 0, 2 * Math.PI);
     ctx.fill();
 
-    // Vị trí đầu cũ của rắn
     let snakeX = snake[0].x;
     let snakeY = snake[0].y;
 
-    // Xác định hướng đi kế tiếp
     if (d === "LEFT") snakeX -= box;
     if (d === "UP") snakeY -= box;
     if (d === "RIGHT") snakeX += box;
     if (d === "DOWN") snakeY += box;
 
-    // Nếu ăn được mồi
     if (snakeX === food.x && snakeY === food.y) {
         snakeScore += 1;
         document.getElementById('snake-score').innerText = `Điểm Rắn: ${snakeScore}`;
@@ -209,13 +224,11 @@ function drawSnake() {
             y: Math.floor(Math.random() * 19 + 1) * box
         };
     } else {
-        snake.pop(); // Loại bỏ đốt đuôi cuối nếu không ăn mồi
+        snake.pop();
     }
 
-    // Tạo đầu mới cho Rắn
     let newHead = { x: snakeX, y: snakeY };
 
-    // Xử lý các điều kiện Thua (Chạm tường hoặc tự cắn đuôi)
     if (snakeX < 0 || snakeX >= canvas.width || snakeY < 0 || snakeY >= canvas.height || collision(newHead, snake)) {
         clearInterval(snakeGameInterval);
         snakeOverlay.style.display = "flex";
@@ -223,12 +236,10 @@ function drawSnake() {
         alert(`Game Over Rắn Săn Mồi! Điểm của bạn: ${snakeScore}`);
         return;
     }
-
     snake.unshift(newHead);
 }
 
-
-// ================= 8. TIỆN ÍCH AI CHAT BOX =================
+// ================= 8. TIỆN ÍCH HỘP THOẠI AI CHAT =================
 const aiChatBox = document.getElementById('ai-chat-box'), toggleAiBtn = document.getElementById('toggle-ai-btn');
 const closeChatBtn = document.getElementById('close-chat-btn'), sendChatBtn = document.getElementById('send-chat-btn');
 const chatInput = document.getElementById('chat-input'), chatContent = document.getElementById('chat-content');
@@ -251,8 +262,8 @@ function handleSendMessage() {
     chatInput.value = '';
     
     setTimeout(() => {
-        let aiReply = "Mình đã cập nhật sửa hoàn tất lỗi phím dấu cách cách và căn chỉnh cấu hình va chạm cho bạn!";
-        if(txt.toLowerCase().includes('hello') || txt.toLowerCase().includes('chào')) aiReply = "Xin chào Tiến Hùng! Trò chơi Rắn săn mồi và Khủng long nhảy đã vận hành trơn tru rồi nhé.";
+        let aiReply = "Hệ thống CI/CD đã tự động cập nhật tốc độ trò chơi và giao diện các khối chức năng theo cấu hình mới!";
+        if(txt.toLowerCase().includes('hello') || txt.toLowerCase().includes('chào')) aiReply = "Xin chào Tiến Hùng! Mình đã bố trí lại Máy tính & Tính nhẩm chung một hàng ngang hoàn hảo rồi nhé.";
         appendMessage(aiReply, 'ai');
     }, 800);
 }
