@@ -1,4 +1,4 @@
-/* Hệ màu nền giao diện */
+/* Hệ thống biến màu Dark/Light */
 .dark-theme {
     --bg-color: #121212;
     --card-bg: #1e1e1e;
@@ -23,59 +23,54 @@
 body { background-color: var(--bg-color); color: var(--text-color); padding-bottom: 20px; }
 .container { max-width: 1100px; margin: 0 auto; padding: 15px 20px; }
 
-/* Navbar */
+/* Thẻ mẫu chung */
+.card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 20px; margin-bottom: 15px; }
+.card h2 { font-size: 17px; margin-bottom: 15px; border-left: 4px solid var(--accent-color); padding-left: 10px; color: #fff; }
+
 .navbar { background-color: var(--navbar-bg); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--accent-color); color: #fff; }
 .logo .demo-tag { font-size: 11px; background: #d32f2f; padding: 2px 5px; border-radius: 4px; font-weight: bold; }
 .nav-right { display: flex; align-items: center; gap: 20px; }
 .clock-display { font-family: monospace; font-size: 14px; background: rgba(0,0,0,0.2); padding: 5px 10px; border-radius: 4px; }
 .btn-toggle { background: var(--accent-color); color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; font-weight: bold; }
 
-/* Banner giới thiệu */
 .intro-banner { background: var(--card-bg); border-bottom: 1px solid var(--border-color); padding: 25px 0; text-align: center; }
 .intro-banner h2 { margin-bottom: 8px; font-size: 22px; }
 .intro-banner p { color: #aaa; font-size: 14px; }
 
-/* Khung bọc Thẻ */
-.card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 20px; margin-bottom: 15px; }
-.card h2 { font-size: 17px; margin-bottom: 15px; border-left: 4px solid var(--accent-color); padding-left: 10px; color: #fff; }
-
-/* Giao diện Sổ tay ghi chú kèm nút XÓA */
+/* Ghi chú có hỗ trợ xóa */
 .main-layout { margin-top: 15px; }
 .notes-container { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
 .notes-section textarea { width: 100%; height: 110px; padding: 12px; background: rgba(0,0,0,0.15); border: 1px solid var(--border-color); color: var(--text-color); border-radius: 6px; resize: none; margin-bottom: 10px; outline: none; }
+.btn-primary { background: var(--accent-color); color: #fff; border: none; padding: 10px 15px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+.btn-primary:hover { background: var(--accent-hover); }
 .note-output-box { border-left: 1px solid var(--border-color); padding-left: 20px; height: 160px; overflow-y: auto; }
 .note-output-box h3 { font-size: 14px; margin-bottom: 10px; color: #aaa; }
 .note-item { display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.2); padding: 8px 12px; border-radius: 5px; margin-bottom: 8px; font-size: 13.5px; border: 1px solid rgba(255,255,255,0.05); }
 .note-text { flex: 1; word-break: break-all; padding-right: 10px; }
-.btn-delete-note { background: #c62828; color: white; border: none; padding: 3px 8px; border-radius: 4px; cursor: pointer; font-size: 11px; font-weight: bold; transition: 0.2s; }
+.btn-delete-note { background: #c62828; color: white; border: none; padding: 3px 8px; border-radius: 4px; cursor: pointer; font-size: 11px; font-weight: bold; }
 .btn-delete-note:hover { background: #b71c1c; }
 
-/* Khối tính toán 1 hàng ngang */
+/* Giao diện tính toán song song */
 .calc-math-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-.calculator input, .math-game input { width: 100%; padding: 12px; background: rgba(0,0,0,0.2); border: 1px solid var(--border-color); color: var(--text-color); border-radius: 6px; font-size: 18px; font-family: monospace; margin-bottom: 12px; outline: none; }
-.calculator input { text-align: right; }
+.calculator input, .math-game input { width: 100%; padding: 12px; background: rgba(0,0,0,0.2); border: 1px solid var(--border-color); color: var(--text-color); border-radius: 6px; font-size: 18px; font-family: monospace; margin-bottom: 12px; outline: none; text-align: right; }
 .math-game input { text-align: center; font-weight: bold; }
 
-/* Bàn phím Máy tính */
 .calc-buttons { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
 .calc-buttons button { padding: 12px; font-size: 16px; font-weight: bold; cursor: pointer; border: 1px solid var(--border-color); background: rgba(255,255,255,0.05); color: var(--text-color); border-radius: 4px; }
 .calc-buttons button:hover { background: rgba(255,255,255,0.15); }
 .calc-buttons .btn-clear { background: #c62828; color: white; }
-.calc-buttons .btn-clear:hover { background: #b71c1c; }
 .calc-buttons .btn-equal { background: #1565c0; color: white; grid-row: span 2; height: 100%; }
-.calc-buttons .btn-equal:hover { background: #0d47a1; }
 
-/* Bàn phím tính nhẩm (Đã fix lỗi nhập liệu) */
+/* Bàn phím tính nhẩm chống lỗi */
 .score-board { font-size: 15px; font-weight: bold; color: var(--accent-hover); margin-bottom: 10px; text-align: right; }
-.game-box #question { font-size: 24px; font-weight: bold; text-align: center; margin-bottom: 12px; font-family: monospace; letter-spacing: 1px; color: #fff; }
+.game-box #question { font-size: 24px; font-weight: bold; text-align: center; margin-bottom: 12px; font-family: monospace; color: #fff; }
 .game-pad-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; }
 .game-pad-grid button { padding: 10px; font-size: 15px; font-weight: bold; cursor: pointer; border: 1px solid var(--border-color); background: rgba(255,255,255,0.05); color: var(--text-color); border-radius: 4px; }
 .game-pad-grid button:hover { background: rgba(255,255,255,0.15); }
 .game-pad-grid .btn-clear-pad { background: #ef6c00; color: white; }
-.game-pad-grid .btn-clear-pad:hover { background: #e65100; }
 #game-feedback { margin-top: 10px; font-weight: bold; text-align: center; min-height: 20px; }
 
-/* Khu vực Arcade Games */
+/* Trò chơi Arcade */
 .games-arcade-section { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 10px; }
 .snake-game-container { width: 100%; display: flex; justify-content: center; align-items: center; background: #000; border: 1px solid var(--border-color); border-radius: 6px; position: relative; padding: 10px; }
 #snakeCanvas { background: #000; max-width: 100%; height: auto; display: block; }
@@ -89,7 +84,7 @@ body { background-color: var(--bg-color); color: var(--text-color); padding-bott
 .dino-controls { display: flex; justify-content: space-between; align-items: center; }
 #dino-score, #snake-score { font-size: 14px; font-weight: bold; color: var(--accent-hover); }
 
-/* THIẾT KẾ MỚI: Hệ thống Ô biểu tượng mạng xã hội cá nhân (Không hiện Link) */
+/* Ô biểu tượng mạng xã hội (Không hiện text link) */
 .social-links-section { margin-top: 10px; }
 .social-icons-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; }
 .social-box { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 15px 10px; border: 1px solid var(--border-color); border-radius: 8px; text-decoration: none; background: rgba(255,255,255,0.03); transition: transform 0.2s, background 0.2s; }
@@ -97,7 +92,7 @@ body { background-color: var(--bg-color); color: var(--text-color); padding-bott
 .social-box .s-icon { font-size: 26px; margin-bottom: 6px; }
 .social-box .s-name { font-size: 13px; font-weight: bold; color: #fff; }
 
-/* Tiện ích nổi Floating Buttons */
+/* Khối Chat Widget nổi */
 .chat-widget-container { position: fixed; bottom: 20px; right: 20px; z-index: 1000; display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
 .fab-buttons { display: flex; flex-direction: column; gap: 8px; }
 .fab { width: 46px; height: 46px; border-radius: 50%; border: none; color: white; font-size: 20px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 8px rgba(0,0,0,0.3); text-decoration: none; }
@@ -105,7 +100,6 @@ body { background-color: var(--bg-color); color: var(--text-color); padding-bott
 .btn-messenger { background: #0084ff; }
 .btn-zalo { background: #0068ff; }
 
-/* Hộp chat AI */
 .ai-chat-box { width: 290px; height: 360px; background: var(--card-bg); border: 2px solid var(--border-color); border-radius: 12px; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.5); margin-bottom: 4px; }
 .ai-chat-box.hidden { display: none; }
 .chat-header { background: #3f51b5; color: white; padding: 12px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; }
@@ -119,16 +113,15 @@ body { background-color: var(--bg-color); color: var(--text-color); padding-bott
 .chat-footer input { flex: 1; padding: 8px; border: 1px solid var(--border-color); background: rgba(0,0,0,0.1); color: var(--text-color); border-radius: 4px; outline: none; }
 .chat-footer button { background: #3f51b5; color: white; border: none; padding: 0 12px; border-radius: 4px; cursor: pointer; }
 
-/* Chân trang */
+/* Footer */
 .author-footer { background: var(--navbar-bg); color: #fff; padding: 35px 20px; border-top: 3px solid var(--accent-color); text-align: center; margin-top: 30px; }
 .author-info { display: flex; flex-direction: column; gap: 6px; margin-bottom: 20px; align-items: center; }
 .author-line { font-size: 14.5px; color: #ccc; }
 .author-info .label-title { font-size: 12px; letter-spacing: 3px; color: var(--accent-hover); font-weight: bold; }
 .author-info .name { font-size: 22px; font-weight: bold; color: #fff; margin-bottom: 2px; }
-.author-info .student-id { font-family: monospace; color: #aaa; }
 .copyright { border-top: 1px solid rgba(255,255,255,0.08); padding-top: 15px; font-size: 12px; color: #555; }
 
-/* Responsive */
+/* Khung co giãn Responsive */
 @media (max-width: 900px) {
     .social-icons-grid { grid-template-columns: repeat(3, 1fr); }
 }
