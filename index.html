@@ -6,7 +6,9 @@
     <title>Cloud CI/CD Demo - Chunkbase Advance</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="dark-theme"> <header class="navbar">
+<body class="dark-theme">
+
+    <header class="navbar">
         <div class="logo">Chunkbase <span class="demo-tag">CI/CD Demo</span></div>
         <div class="nav-right">
             <div id="clock" class="clock-display">Đang tải thời gian...</div>
@@ -54,8 +56,7 @@
                     </div>
                     <div class="note-output-box">
                         <h3>Ghi chú đã lưu:</h3>
-                        <ul id="notes-list">
-                            </ul>
+                        <ul id="notes-list"></ul>
                     </div>
                 </div>
             </section>
@@ -100,22 +101,55 @@
 
     <section class="container dino-section">
         <div class="card">
-            <h2>🦖 Trò chơi Khủng long (Bấm 'Dấu cách' hoặc Click vào nút Nhảy để chơi)</h2>
+            <h2>🦖 Trò chơi Khủng long (Chỉ chạy khi nhấn Bắt đầu)</h2>
             <div class="dino-game-container">
                 <div id="dino"></div>
                 <div id="cactus"></div>
+                <div id="dino-overlay" class="dino-overlay">
+                    <button id="start-game-btn" class="btn-start-dino">▶ Bắt đầu chơi</button>
+                </div>
             </div>
             <div class="dino-controls">
-                <button id="jump-btn" class="btn-primary">Nhảy 🦘</button>
+                <button id="jump-btn" class="btn-primary" disabled>Nhảy 🦘</button>
                 <span id="dino-score">Điểm Dino: 0</span>
             </div>
         </div>
     </section>
 
-    <footer>
-        <div class="container">
-            <p><strong>Tác giả:</strong> Tiến Hùng - Sinh viên lớp Công nghệ thông tin</p>
-            <p>© 2026 Cloud CI/CD Demo. Mọi quyền được bảo lưu.</p>
+    <div class="chat-widget-container">
+        <div id="ai-chat-box" class="ai-chat-box hidden">
+            <div class="chat-header">
+                <span>🤖 Trợ lý AI Kỷ Nguyên</span>
+                <button id="close-chat-btn">×</button>
+            </div>
+            <div id="chat-content" class="chat-content">
+                <div class="msg system">Chào bạn! Mình là AI hỗ trợ. Bạn cần mình giúp gì nào?</div>
+            </div>
+            <div class="chat-footer">
+                <input type="text" id="chat-input" placeholder="Nhập câu hỏi...">
+                <button id="send-chat-btn">Gửi</button>
+            </div>
+        </div>
+
+        <div class="fab-buttons">
+            <button id="toggle-ai-btn" class="fab btn-ai" title="Chat với AI">🤖</button>
+            <a href="https://m.me/YourFacebookID" target="_blank" class="fab btn-messenger" title="Chat Messenger">💬</a>
+            <a href="https://zalo.me/0945358828" target="_blank" class="fab btn-zalo" title="Chat Zalo">🌀</a>
+        </div>
+    </div>
+
+    <footer class="author-footer">
+        <div class="author-info">
+            <p class="author-line label-title">TÁC GIẢ</p>
+            <p class="author-line name">Tiến Hùng</p>
+            <p class="author-line school">Trường Đại học Đông Đô</p>
+            <p class="author-line major">Ngành: Công nghệ thông tin</p>
+            <p class="author-line student-id">MSV: CT5280117</p>
+            <p class="author-line dob">Sinh ngày: 20/11/2005</p>
+            <p class="author-line phone">SĐT: 0945358828</p>
+        </div>
+        <div class="copyright">
+            <p>© 2026 Cloud CI/CD Demo. All Rights Reserved.</p>
         </div>
     </footer>
 
