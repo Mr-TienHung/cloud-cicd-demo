@@ -1,11 +1,11 @@
-// ================= 1. ĐỒNG HỒ HỆ THỐNG =================
+// ================= Đồng hồ hệ thống =================
 function updateClock() {
     const now = new Date();
     document.getElementById('clock').innerText = `${now.toLocaleDateString('vi-VN')} - ${now.toLocaleTimeString('vi-VN')}`;
 }
 setInterval(updateClock, 1000); updateClock();
 
-// ================= 2. CHẾ ĐỘ GIAO DIỆN SÁNG TỐI =================
+// ================= Chế độ sáng/tối =================
 const themeToggle = document.getElementById('theme-toggle');
 themeToggle.addEventListener('click', () => {
     if (document.body.classList.contains('dark-theme')) {
@@ -17,27 +17,26 @@ themeToggle.addEventListener('click', () => {
     }
 });
 
-// ================= 3. MÁY TÍNH SỐ HỌC =================
+// ================= Máy tính số học =================
 const calcScreen = document.getElementById('calc-screen');
 function pressCalc(value) { calcScreen.value += value; }
 function clearCalc() { calcScreen.value = ''; }
 function calculateResult() {
     try { if (calcScreen.value) calcScreen.value = eval(calcScreen.value); } 
-    catch (e) { calcScreen.value = 'Lỗi cú pháp'; }
+    catch (e) { calcScreen.value = 'Lỗi'; }
 }
 
-// ================= 4. THÁCH THỨC TÍNH NHẨM (ĐÃ SỬA LỖI PHÍM BẤM) =================
+// ================= Bàn phím tính nhẩm chuyên dụng (Đã sửa lỗi) =================
 let mathScore = 0, correctAnswer = 0;
 const gameAnswerInput = document.getElementById('game-answer');
 
 function generateQuestion() {
-    const n1 = Math.floor(Math.random() * 20) + 1, n2 = Math.floor(Math.random() * 20) + 1;
+    const n1 = Math.floor(Math.random() * 15) + 1, n2 = Math.floor(Math.random() * 15) + 1;
     const ops = ['+', '-', '*'], op = ops[Math.floor(Math.random() * ops.length)];
     document.getElementById('question').innerText = `${n1} ${op} ${n2} = ?`;
     correctAnswer = op === '+' ? n1 + n2 : op === '-' ? n1 - n2 : n1 * n2;
 }
 
-// Logic phím bấm tương tác điền trực tiếp giá trị vào chuỗi text trống
 function pressMathPad(char) {
     gameAnswerInput.value += char;
 }
@@ -51,11 +50,11 @@ function checkGameAnswer() {
     
     if (ans === correctAnswer) { 
         mathScore += 10; 
-        fb.innerText = "Chính xác! +10đ 🎉"; 
+        fb.innerText = "Chính xác! 🎉"; 
         fb.style.color = "#4caf50"; 
     } else { 
         mathScore = Math.max(0, mathScore - 5); 
-        fb.innerText = `Sai rồi! Đáp án là: ${correctAnswer} 😢`; 
+        fb.innerText = `Sai rồi! Đáp án: ${correctAnswer}`; 
         fb.style.color = "#f44336"; 
     }
     document.getElementById('game-score').innerText = mathScore;
@@ -65,7 +64,7 @@ function checkGameAnswer() {
 document.getElementById('submit-answer-btn').addEventListener('click', checkGameAnswer);
 generateQuestion();
 
-// ================= 5. SỔ TAY GHI CHÚ (THÊM VÀ XÓA TỪNG MỤC LINH HOẠT) =================
+// ================= Sổ tay ghi chú (Thêm và Xóa linh hoạt) =================
 const noteInput = document.getElementById('note-input'), notesList = document.getElementById('notes-list');
 let savedNotes = JSON.parse(localStorage.getItem('my_web_notes')) || [];
 
@@ -107,7 +106,7 @@ document.getElementById('save-note-btn').addEventListener('click', () => {
 });
 renderNotes();
 
-// ================= 6. GAME KHỦNG LONG (CHẠY CHẬM) =================
+// ================= Game Khủng Long =================
 const dino = document.getElementById('dino'), cactus = document.getElementById('cactus');
 const jumpBtn = document.getElementById('jump-btn'), dinoOverlay = document.getElementById('dino-overlay');
 const startDinoBtn = document.getElementById('start-game-btn');
@@ -117,13 +116,13 @@ let dinoScore = 0, cactusPosition = 100, isJumping = false, isDinoAlive = false,
 function jump() {
     if (!isJumping && isDinoAlive) {
         isJumping = true;
-        dino.style.transition = "bottom 0.28s cubic-bezier(0.25, 0.46, 0.45, 0.94)";
-        dino.style.bottom = "80px";
+        dino.style.transition = "bottom 0.25s ease-out";
+        dino.style.bottom = "75px";
         setTimeout(() => {
-            dino.style.transition = "bottom 0.24s cubic-bezier(0.55, 0.085, 0.68, 0.53)";
+            dino.style.transition = "bottom 0.22s ease-in";
             dino.style.bottom = "0px";
-            setTimeout(() => { isJumping = false; }, 240);
-        }, 280);
+            setTimeout(() => { isJumping = false; }, 220);
+        }, 250);
     }
 }
 
@@ -145,7 +144,7 @@ startDinoBtn.addEventListener('click', () => {
 
 function dinoLoop() {
     if (!isDinoAlive) { dinoId = null; return; }
-    cactusPosition -= 1.0; 
+    cactusPosition -= 1.2; 
     if (cactusPosition < -4) {
         cactusPosition = 100; dinoScore += 1;
         document.getElementById('dino-score').innerText = `Điểm Dino: ${dinoScore}`;
@@ -156,16 +155,16 @@ function dinoLoop() {
     const cactusLeftPx = (cactusPosition / 100) * containerWidth;
     const dinoBottom = parseInt(window.getComputedStyle(dino).getPropertyValue('bottom'));
 
-    if (cactusLeftPx >= 40 && cactusLeftPx <= 62 && dinoBottom <= 26) {
+    if (cactusLeftPx >= 40 && cactusLeftPx <= 62 && dinoBottom <= 25) {
         isDinoAlive = false; jumpBtn.disabled = true;
         dinoOverlay.style.display = 'flex';
         startDinoBtn.innerText = "🔄 Chơi lại";
-        alert(`Trò chơi kết thúc! Điểm của bạn: ${dinoScore}`);
+        alert(`Kết thúc! Điểm của bạn: ${dinoScore}`);
     }
     dinoId = requestAnimationFrame(dinoLoop);
 }
 
-// ================= 7. GAME RẮN SĂN MỒI (CHẠY CHẬM) =================
+// ================= Game Rắn săn mồi =================
 const canvas = document.getElementById("snakeCanvas");
 const ctx = canvas.getContext("2d");
 const snakeOverlay = document.getElementById("snake-overlay");
@@ -193,11 +192,10 @@ function initSnakeGame() {
         x: Math.floor(Math.random() * 19 + 1) * box,
         y: Math.floor(Math.random() * 19 + 1) * box
     };
-    snakeScore = 0;
+    snakeScore = 0; d = "RIGHT";
     document.getElementById('snake-score').innerText = `Điểm Rắn: 0`;
-    d = "RIGHT";
     if(snakeGameInterval) clearInterval(snakeGameInterval);
-    snakeGameInterval = setInterval(drawSnake, 180); 
+    snakeGameInterval = setInterval(drawSnake, 160); 
 }
 
 function collision(head, array) {
@@ -214,8 +212,6 @@ function drawSnake() {
     for (let i = 0; i < snake.length; i++) {
         ctx.fillStyle = i === 0 ? "#4caf50" : "#81c784";
         ctx.fillRect(snake[i].x, snake[i].y, box, box);
-        ctx.strokeStyle = "#000";
-        ctx.strokeRect(snake[i].x, snake[i].y, box, box);
     }
 
     ctx.fillStyle = "#e53935";
@@ -248,13 +244,13 @@ function drawSnake() {
         clearInterval(snakeGameInterval);
         snakeOverlay.style.display = "flex";
         startSnakeBtn.innerText = "🔄 Chơi lại Rắn";
-        alert(`Trò chơi kết thúc! Điểm Rắn của bạn: ${snakeScore}`);
+        alert(`Game Over! Điểm Rắn: ${snakeScore}`);
         return;
     }
     snake.unshift(newHead);
 }
 
-// ================= 8. HỘP CHAT TIỆN ÍCH AI =================
+// ================= Hộp chat AI =================
 const aiChatBox = document.getElementById('ai-chat-box'), toggleAiBtn = document.getElementById('toggle-ai-btn');
 const closeChatBtn = document.getElementById('close-chat-btn'), sendChatBtn = document.getElementById('send-chat-btn');
 const chatInput = document.getElementById('chat-input'), chatContent = document.getElementById('chat-content');
@@ -277,10 +273,8 @@ function handleSendMessage() {
     chatInput.value = '';
     
     setTimeout(() => {
-        let reply = "Hệ thống CI/CD đã tự động cập nhật mã nguồn theo yêu cầu giao diện mới thành công!";
-        if(txt.toLowerCase().includes('chào')) reply = "Xin chào Tiến Hùng! Mình đã sửa xong lỗi bàn phím tính nhẩm và bố trí lại mạng xã hội.";
-        appendMessage(reply, 'ai');
-    }, 700);
+        appendMessage("Mã nguồn trang web tiện ích đã được cập nhật thành công!", 'ai');
+    }, 600);
 }
 sendChatBtn.addEventListener('click', handleSendMessage);
 chatInput.addEventListener('keypress', (e) => { if(e.key==='Enter') handleSendMessage(); });
