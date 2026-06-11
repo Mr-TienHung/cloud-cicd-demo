@@ -12,7 +12,7 @@
         <div class="logo">Trang Tiện Ích <span class="demo-tag">CI/CD Demo</span></div>
         <div class="nav-right">
             <div id="clock" class="clock-display">Đang tải thời gian...</div>
-            <button id="theme-toggle" class="btn-toggle">☀️ Chế độ sáng</button>
+            <button id="theme-toggle" class="btn-beauty btn-theme">☀️ Chế độ sáng</button>
         </div>
     </header>
 
@@ -29,7 +29,7 @@
             <div class="notes-container">
                 <div class="note-input-box">
                     <textarea id="note-input" placeholder="Nhập nội dung ghi chú mới vào đây..."></textarea>
-                    <button id="save-note-btn" class="btn-primary">Lưu Ghi Chú</button>
+                    <button id="save-note-btn" class="btn-beauty btn-submit">Lưu Ghi Chú</button>
                 </div>
                 <div class="note-output-box">
                     <h3>Danh sách ghi chú đã lưu:</h3>
@@ -45,7 +45,7 @@
                 <h2>🧮 Máy tính Số học</h2>
                 <input type="text" id="calc-screen" readonly>
                 <div class="calc-buttons">
-                    <button onclick="clearCalc()" class="btn-clear">C</button>
+                    <button onclick="clearCalc()" class="btn-calc-clear">C</button>
                     <button onclick="pressCalc('/')">/</button>
                     <button onclick="pressCalc('*')">*</button>
                     <button onclick="pressCalc('-')">-</button>
@@ -56,7 +56,7 @@
                     <button onclick="pressCalc('4')">4</button>
                     <button onclick="pressCalc('5')">5</button>
                     <button onclick="pressCalc('6')">6</button>
-                    <button onclick="calculateResult()" class="btn-equal">=</button>
+                    <button onclick="calculateResult()" class="btn-calc-equal">=</button>
                     <button onclick="pressCalc('1')">1</button>
                     <button onclick="pressCalc('2')">2</button>
                     <button onclick="pressCalc('3')">3</button>
@@ -83,10 +83,10 @@
                         <button onclick="pressMathPad('9')">9</button>
                         <button onclick="pressMathPad('-')">-</button>
                         <button onclick="pressMathPad('0')">0</button>
-                        <button onclick="clearMathPad()" class="btn-clear-pad">Xóa</button>
+                        <button onclick="clearMathPad()" class="btn-pad-clear">Xóa</button>
                     </div>
 
-                    <button id="submit-answer-btn" class="btn-primary" style="width:100%; margin-top:12px;">Gửi kết quả</button>
+                    <button id="submit-answer-btn" class="btn-beauty btn-submit" style="width:100%; margin-top:12px;">Gửi kết quả</button>
                     <div id="game-feedback"></div>
                 </div>
             </div>
@@ -99,7 +99,11 @@
             <div class="snake-game-container">
                 <canvas id="snakeCanvas" width="400" height="400"></canvas>
                 <div id="snake-overlay" class="game-overlay">
-                    <button id="start-snake-btn" class="btn-start-game">▶ Bắt đầu chơi Rắn</button>
+                    <div class="overlay-content">
+                        <h1 id="snake-status"></h1>
+                        <p id="snake-final-score" style="margin-bottom: 15px; font-weight: bold; color: #ffeb3b;"></p>
+                        <button id="start-snake-btn" class="btn-beauty btn-play">▶ Bắt đầu chơi</button>
+                    </div>
                 </div>
             </div>
             <div class="game-controls-info">
@@ -113,11 +117,15 @@
                 <div id="dino"></div>
                 <div id="cactus"></div>
                 <div id="dino-overlay" class="game-overlay">
-                    <button id="start-game-btn" class="btn-start-game">▶ Bắt đầu chơi Dino</button>
+                    <div class="overlay-content">
+                        <h1 id="dino-status"></h1>
+                        <p id="dino-final-score" style="margin-bottom: 15px; font-weight: bold; color: #ffeb3b;"></p>
+                        <button id="start-game-btn" class="btn-beauty btn-play">▶ Bắt đầu chơi</button>
+                    </div>
                 </div>
             </div>
             <div class="dino-controls">
-                <button id="jump-btn" class="btn-primary" disabled>Nhảy 🦘</button>
+                <button id="jump-btn" class="btn-beauty btn-action" disabled>Nhảy 🦘</button>
                 <span id="dino-score">Điểm Dino: 0</span>
             </div>
         </div>
