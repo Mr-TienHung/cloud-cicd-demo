@@ -1,157 +1,74 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cloud CI/CD Demo</title>
-
-<style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial, sans-serif;
-}
-
-body{
-    background:linear-gradient(135deg,#0f172a,#1e293b);
-    color:white;
-    min-height:100vh;
-}
-
-header{
-    text-align:center;
-    padding:50px 20px;
-}
-
-header h1{
-    font-size:3rem;
-    margin-bottom:10px;
-}
-
-header p{
-    color:#cbd5e1;
-}
-
-.container{
-    max-width:1100px;
-    margin:auto;
-    padding:20px;
-}
-
-.cards{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-    gap:20px;
-    margin-top:40px;
-}
-
-.card{
-    background:#1e293b;
-    padding:25px;
-    border-radius:15px;
-    box-shadow:0 0 15px rgba(0,0,0,0.3);
-    transition:0.3s;
-}
-
-.card:hover{
-    transform:translateY(-5px);
-}
-
-.card h3{
-    margin-bottom:10px;
-    color:#38bdf8;
-}
-
-button{
-    margin-top:30px;
-    padding:12px 25px;
-    border:none;
-    border-radius:10px;
-    background:#38bdf8;
-    color:black;
-    font-weight:bold;
-    cursor:pointer;
-}
-
-button:hover{
-    background:#0ea5e9;
-}
-
-#time{
-    margin-top:20px;
-    font-size:18px;
-    color:#facc15;
-}
-
-footer{
-    text-align:center;
-    padding:30px;
-    margin-top:50px;
-    color:#94a3b8;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud CI/CD Demo - Chunkbase Clone</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<header>
-    <h1>☁ Cloud CI/CD Demo</h1>
-    <p>Triển khai website tự động bằng GitHub Actions & GitHub Pages</p>
+    <header class="navbar">
+        <div class="logo">Chunkbase <span class="demo-tag">CI/CD Demo</span></div>
+        <nav>
+            <ul>
+                <li><a href="#" class="active">Apps</a></li>
+                <li><a href="#">Seeds</a></li>
+                <li><a href="#">Tutorials</a></li>
+            </ul>
+        </nav>
+    </header>
 
-    <button onclick="showMessage()">
-        Kiểm Tra Deploy
-    </button>
+    <main class="container">
+        <h1>Minecraft Seed Map Viewer</h1>
+        
+        <section class="control-panel">
+            <div class="input-group">
+                <label for="seed">Seed:</label>
+                <input type="text" id="seed" placeholder="Nhập mã seed tại đây..." value="1234567890">
+            </div>
+            <div class="input-group">
+                <label for="version">Phiên bản:</label>
+                <select id="version">
+                    <option>Java 1.20 or newer</option>
+                    <option>Java 1.19</option>
+                    <option>Bedrock 1.20</option>
+                </select>
+            </div>
+            <button class="btn-find" onclick="alert('Đang tìm kiếm cấu trúc thế giới...')">Tìm kiếm</button>
+        </section>
 
-    <div id="time"></div>
-</header>
+        <section class="map-wrapper">
+            <div class="map-grid">
+                <div class="chunk stronghold">Stronghold</div>
+                <div class="chunk ocean">Ocean</div>
+                <div class="chunk village">Village</div>
+                <div class="chunk spawn">Spawn</div>
+                <div class="chunk monument">Monument</div>
+                <div class="chunk desert">Desert</div>
+                <div class="chunk nether">Nether Portal</div>
+                <div class="chunk slime">Slime Chunk</div>
+                <div class="chunk mansion">Mansion</div>
+            </div>
+            <div class="coordinates">
+                Tọa độ hiện tại: <span class="coord-val">X: 256, Z: -512</span>
+            </div>
+        </section>
 
-<div class="container">
+        <section class="features-filter">
+            <h3>Hiển thị cấu trúc</h3>
+            <div class="checkbox-group">
+                <label><input type="checkbox" checked> Thôn làng (Villages)</label>
+                <label><input type="checkbox" checked> Ngục tối (Strongholds)</label>
+                <label><input type="checkbox"> Đền thờ sa mạc</label>
+                <label><input type="checkbox" checked> Slime Chunks</label>
+            </div>
+        </section>
+    </main>
 
-    <div class="cards">
-
-        <div class="card">
-            <h3>GitHub Repository</h3>
-            <p>Lưu trữ source code website.</p>
-        </div>
-
-        <div class="card">
-            <h3>GitHub Actions</h3>
-            <p>Tự động build và deploy khi push code.</p>
-        </div>
-
-        <div class="card">
-            <h3>GitHub Pages</h3>
-            <p>Hosting miễn phí cho website tĩnh.</p>
-        </div>
-
-        <div class="card">
-            <h3>CI/CD</h3>
-            <p>Continuous Integration & Continuous Deployment.</p>
-        </div>
-
-    </div>
-
-</div>
-
-<footer>
-    © 2026 Cloud CI/CD Demo - Deploy tự động bằng GitHub Actions
-</footer>
-
-<script>
-function showMessage(){
-    alert("Deploy thành công!");
-}
-
-function updateTime(){
-    const now = new Date();
-    document.getElementById("time").innerHTML =
-        "Thời gian hiện tại: " + now.toLocaleString();
-}
-
-setInterval(updateTime,1000);
-updateTime();
-</script>
+    <footer>
+        <p>© 2026 Cloud CI/CD Demo - Bài thực hành GitHub Actions tự động hóa.</p>
+    </footer>
 
 </body>
 </html>
