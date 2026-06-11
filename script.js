@@ -1,13 +1,9 @@
 // ================= 1. ĐỒNG HỒ NGÀY & GIỜ =================
 function updateClock() {
     const now = new Date();
-    const timeStr = now.toLocaleTimeString('vi-VN');
-    const dateStr = now.toLocaleDateString('vi-VN');
-    document.getElementById('clock').innerText = `${dateStr} - ${timeStr}`;
+    document.getElementById('clock').innerText = `${now.toLocaleDateString('vi-VN')} - ${now.toLocaleTimeString('vi-VN')}`;
 }
-setInterval(updateClock, 1000);
-updateClock();
-
+setInterval(updateClock, 1000); updateClock();
 
 // ================= 2. CHẾ ĐỘ SÁNG / TỐI =================
 const themeToggle = document.getElementById('theme-toggle');
@@ -21,147 +17,127 @@ themeToggle.addEventListener('click', () => {
     }
 });
 
-
 // ================= 3. MÁY TÍNH BỎ TÚI =================
 const calcScreen = document.getElementById('calc-screen');
-function pressCalc(value) {
-    calcScreen.value += value;
-}
-function clearCalc() {
-    calcScreen.value = '';
-}
+function pressCalc(value) { calcScreen.value += value; }
+function clearCalc() { calcScreen.value = ''; }
 function calculateResult() {
-    try {
-        if (calcScreen.value) {
-            calcScreen.value = eval(calcScreen.value);
-        }
-    } catch (error) {
-        calcScreen.value = 'Lỗi biểu thức';
-    }
+    try { if (calcScreen.value) calcScreen.value = eval(calcScreen.value); } 
+    catch (e) { calcScreen.value = 'Lỗi biểu thức'; }
 }
 
-
-// ================= 4. TRÒ CHƠI TÍNH NHẨM CỘNG ĐIỂM =================
-let score = 0;
-let correctAnswer = 0;
-
+// ================= 4. THÁCH THỨC TÍNH NHẨM =================
+let score = 0, correctAnswer = 0;
 function generateQuestion() {
-    const num1 = Math.floor(Math.random() * 20) + 1;
-    const num2 = Math.floor(Math.random() * 20) + 1;
-    const operators = ['+', '-', '*'];
-    const op = operators[Math.floor(Math.random() * operators.length)];
-    
-    document.getElementById('question').innerText = `${num1} ${op} ${num2} = ?`;
-    
-    if (op === '+') correctAnswer = num1 + num2;
-    else if (op === '-') correctAnswer = num1 - num2;
-    else if (op === '*') correctAnswer = num1 * num2;
+    const n1 = Math.floor(Math.random() * 20) + 1, n2 = Math.floor(Math.random() * 20) + 1;
+    const ops = ['+', '-', '*'], op = ops[Math.floor(Math.random() * ops.length)];
+    document.getElementById('question').innerText = `${n1} ${op} ${n2} = ?`;
+    correctAnswer = op === '+' ? n1 + n2 : op === '-' ? n1 - n2 : n1 * n2;
 }
-
-document.getElementById('submit-answer-btn').addEventListener('click', checkGameAnswer);
-document.getElementById('game-answer').addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') checkGameAnswer();
-});
-
 function checkGameAnswer() {
-    const inputAns = parseInt(document.getElementById('game-answer').value);
-    const feedback = document.getElementById('game-feedback');
-    
-    if (inputAns === correctAnswer) {
-        score += 10;
-        feedback.innerText = "Chính xác! +10 điểm 🎉";
-        feedback.style.color = "#4caf50";
-    } else {
-        score = Math.max(0, score - 5);
-        feedback.innerText = `Sai rồi! Đáp án đúng là ${correctAnswer} 😢`;
-        feedback.style.color = "#f44336";
-    }
-    
+    const ans = parseInt(document.getElementById('game-answer').value), fb = document.getElementById('game-feedback');
+    if (ans === correctAnswer) { score += 10; fb.innerText = "Chính xác! +10đ 🎉"; fb.style.color = "#4caf50"; } 
+    else { score = Math.max(0, score - 5); fb.innerText = `Sai rồi! Đáp án: ${correctAnswer} 😢`; fb.style.color = "#f44336"; }
     document.getElementById('game-score').innerText = score;
-    document.getElementById('game-answer').value = '';
-    generateQuestion();
+    document.getElementById('game-answer').value = ''; generateQuestion();
 }
+document.getElementById('submit-answer-btn').addEventListener('click', checkGameAnswer);
+document.getElementById('game-answer').addEventListener('keypress', (e) => { if(e.key==='Enter') checkGameAnswer(); });
 generateQuestion();
 
-
-// ================= 5. QUẢN LÝ GHI CHÚ (NOTES) =================
-const noteInput = document.getElementById('note-input');
-const saveNoteBtn = document.getElementById('save-note-btn');
-const notesList = document.getElementById('notes-list');
-
-// Tự động tải ghi chú cũ nếu có lưu từ trước
+// ================= 5. GHI CHÚ (LOCALSTORAGE) =================
+const noteInput = document.getElementById('note-input'), notesList = document.getElementById('notes-list');
 let savedNotes = JSON.parse(localStorage.getItem('my_web_notes')) || [];
 function renderNotes() {
     notesList.innerHTML = '';
-    savedNotes.forEach((note, index) => {
-        const li = document.createElement('li');
-        li.innerText = note;
-        notesList.appendChild(li);
-    });
+    savedNotes.forEach(n => { const li = document.createElement('li'); li.innerText = n; notesList.appendChild(li); });
 }
-
-saveNoteBtn.addEventListener('click', () => {
-    const text = noteInput.value.trim();
-    if (text) {
-        savedNotes.unshift(text); // Thêm ghi chú mới lên đầu danh sách
-        localStorage.setItem('my_web_notes', JSON.stringify(savedNotes));
-        noteInput.value = '';
-        renderNotes();
-    }
+document.getElementById('save-note-btn').addEventListener('click', () => {
+    const t = noteInput.value.trim();
+    if(t) { savedNotes.unshift(t); localStorage.setItem('my_web_notes', JSON.stringify(savedNotes)); noteInput.value = ''; renderNotes(); }
 });
 renderNotes();
 
+// ================= 6. INTERACTIVE DINO JUMP GAME =================
+const dino = document.getElementById('dino'), cactus = document.getElementById('cactus');
+const jumpBtn = document.getElementById('jump-btn'), overlay = document.getElementById('dino-overlay');
+const startBtn = document.getElementById('start-game-btn');
 
-// ================= 6. MINI DINO JUMP GAME =================
-const dino = document.getElementById('dino');
-const cactus = document.getElementById('cactus');
-const jumpBtn = document.getElementById('jump-btn');
-let dinoScore = 0;
-let isJumping = false;
-let isAlive = true;
+let dinoScore = 0, cactusPosition = 100, isJumping = false, isAlive = false, animationId = null;
 
 function jump() {
     if (!isJumping && isAlive) {
         isJumping = true;
-        dino.style.transition = "bottom 0.3s ease-out";
-        dino.style.bottom = "80px";
-        
+        dino.style.transition = "bottom 0.28s cubic-bezier(0.4, 0, 0.2, 1)";
+        dino.style.bottom = "85px";
         setTimeout(() => {
-            dino.style.transition = "bottom 0.25s ease-in";
+            dino.style.transition = "bottom 0.22s cubic-bezier(0.4, 0, 1, 1)";
             dino.style.bottom = "0px";
-            setTimeout(() => { isJumping = false; }, 250);
-        }, 300);
+            setTimeout(() => { isJumping = false; }, 220);
+        }, 280);
     }
 }
 
-// Bấm phím Space hoặc nút để Nhảy
-document.addEventListener('keydown', (e) => { if (e.code === 'Space') jump(); });
+document.addEventListener('keydown', (e) => { if (e.code === 'Space') { e.preventDefault(); jump(); } });
 jumpBtn.addEventListener('click', jump);
 
-// Khởi chạy vòng lặp di chuyển chướng ngại vật bằng JS
-let cactusPosition = 100;
-function gameLoop() {
-    if (!isAlive) return;
+startBtn.addEventListener('click', () => {
+    overlay.style.display = 'none';
+    isAlive = true;
+    jumpBtn.disabled = false;
+    cactusPosition = 100;
+    dinoScore = 0;
+    document.getElementById('dino-score').innerText = `Điểm Dino: 0`;
+    if(!animationId) animationId = requestAnimationFrame(gameLoop);
+});
 
-    cactusPosition -= 1.5; // Tốc độ chạy của cây xương rồng
-    if (cactusPosition < -5) {
-        cactusPosition = 100;
-        dinoScore += 1;
+function gameLoop() {
+    if (!isAlive) { animationId = null; return; }
+    cactusPosition -= 1.6;
+    if (cactusPosition < -4) {
+        cactusPosition = 100; dinoScore += 1;
         document.getElementById('dino-score').innerText = `Điểm Dino: ${dinoScore}`;
     }
     cactus.style.left = cactusPosition + "%";
-
-    // Kiểm tra va chạm (Độ phân giải tương đối)
     const dinoBottom = parseInt(window.getComputedStyle(dino).getPropertyValue('bottom'));
-    if (cactusPosition > 10 && cactusPosition < 14 && dinoBottom <= 30) {
+    if (cactusPosition > 11 && cactusPosition < 15 && dinoBottom <= 30) {
         isAlive = false;
-        alert(`Game Over! Khủng long va chạm cây xương rồng. Điểm của bạn: ${dinoScore}`);
-        // Reset Game tự động
-        cactusPosition = 100;
-        dinoScore = 0;
-        document.getElementById('dino-score').innerText = `Điểm Dino: 0`;
-        isAlive = true;
+        jumpBtn.disabled = true;
+        overlay.style.display = 'flex';
+        startBtn.innerText = "🔄 Chơi lại";
+        alert(`Game Over! Điểm của bạn: ${dinoScore}`);
     }
-    requestAnimationFrame(gameLoop);
+    animationId = requestAnimationFrame(gameLoop);
 }
-requestAnimationFrame(gameLoop);
+
+// ================= 7. TIỆN ÍCH AI CHAT BOX HỘP THOẠI =================
+const aiChatBox = document.getElementById('ai-chat-box'), toggleAiBtn = document.getElementById('toggle-ai-btn');
+const closeChatBtn = document.getElementById('close-chat-btn'), sendChatBtn = document.getElementById('send-chat-btn');
+const chatInput = document.getElementById('chat-input'), chatContent = document.getElementById('chat-content');
+
+toggleAiBtn.addEventListener('click', () => aiChatBox.classList.toggle('hidden'));
+closeChatBtn.addEventListener('click', () => aiChatBox.classList.add('hidden'));
+
+function appendMessage(text, sender) {
+    const msg = document.createElement('div');
+    msg.className = `msg ${sender}`;
+    msg.innerText = text;
+    chatContent.appendChild(msg);
+    chatContent.scrollTop = chatContent.scrollHeight;
+}
+
+function handleSendMessage() {
+    const txt = chatInput.value.trim();
+    if(!txt) return;
+    appendMessage(txt, 'user');
+    chatInput.value = '';
+    
+    setTimeout(() => {
+        let aiReply = "Mình đã nhận thông tin. Hệ thống CI/CD hoạt động rất tốt!";
+        if(txt.toLowerCase().includes('hello') || txt.toLowerCase().includes('chào')) aiReply = "Xin chào Tiến Hùng! Chúc bạn một ngày lập trình thật nhiều niềm vui.";
+        else if(txt.toLowerCase().includes('dino')) aiReply = "Game Khủng long đã sẵn sàng, hãy nhấn Bắt đầu để thử thách điểm số nhé.";
+        appendMessage(aiReply, 'ai');
+    }, 800);
+}
+sendChatBtn.addEventListener('click', handleSendMessage);
+chatInput.addEventListener('keypress', (e) => { if(e.key==='Enter') handleSendMessage(); });
