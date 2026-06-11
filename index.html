@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cloud CI/CD Demo - Chunkbase Advance</title>
+    <title>Cloud CI/CD Demo - Tiến Hùng</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="dark-theme">
 
     <header class="navbar">
-        <div class="logo">Chunkbase <span class="demo-tag">CI/CD Demo</span></div>
+        <div class="logo">Trang Tiện Ích <span class="demo-tag">CI/CD Demo</span></div>
         <div class="nav-right">
             <div id="clock" class="clock-display">Đang tải thời gian...</div>
             <button id="theme-toggle" class="btn-toggle">☀️ Chế độ sáng</button>
@@ -18,81 +18,25 @@
 
     <section class="intro-banner">
         <div class="container">
-            <h2>Chào mừng đến với Hệ thống Mô phỏng Chunkbase & Tiện ích mở rộng</h2>
-            <p>Trang web được xây dựng nhằm mục đích thực hành quy trình tự động hóa triển khai mã nguồn **Cloud CI/CD (GitHub Actions)**. Tại đây, bạn có thể trải nghiệm các công cụ giả lập bản đồ Minecraft cùng các widget hỗ trợ tính toán, giải trí cực kỳ tiện lợi.</p>
+            <h2>Hệ thống Tự động hóa Triển khai Website bằng GitHub Actions</h2>
+            <p>Trang web thực hành tích hợp các công cụ hỗ trợ học tập, tính toán và giải trí cá nhân của sinh viên **Tiến Hùng**.</p>
         </div>
     </section>
 
     <main class="container main-layout">
-        
-        <div class="left-column">
-            <section class="card">
-                <h2>Minecraft Seed Map Viewer (Mô phỏng quần xã)</h2>
-                <div class="control-panel">
-                    <div class="input-group">
-                        <label>Seed:</label>
-                        <input type="text" id="seed" value="1234567890">
-                    </div>
-                    <button class="btn-find" onclick="alert('Đang quét tìm cấu trúc...')">Tìm kiếm</button>
+        <section class="card notes-section">
+            <h2>📝 Sổ tay Ghi chú (Hỗ trợ Thêm & Xóa mục)</h2>
+            <div class="notes-container">
+                <div class="note-input-box">
+                    <textarea id="note-input" placeholder="Nhập nội dung ghi chú mới vào đây..."></textarea>
+                    <button id="save-note-btn" class="btn-primary">Lưu Ghi Chú</button>
                 </div>
-                <div class="map-wrapper">
-                    <div class="map-grid">
-                        <div class="chunk stronghold">Stronghold</div>
-                        <div class="chunk ocean">Ocean</div>
-                        <div class="chunk village">Village</div>
-                        <div class="chunk spawn">Spawn</div>
-                        <div class="chunk monument">Monument</div>
-                        <div class="chunk slime">Slime Chunk</div>
-                    </div>
+                <div class="note-output-box">
+                    <h3>Danh sách ghi chú đã lưu:</h3>
+                    <ul id="notes-list"></ul>
                 </div>
-            </section>
-
-            <section class="card notes-section">
-                <h2>📝 Sổ tay Ghi chú (Hỗ trợ thêm/xóa)</h2>
-                <div class="notes-container">
-                    <div class="note-input-box">
-                        <textarea id="note-input" placeholder="Nhập nội dung ghi chú vào đây..."></textarea>
-                        <button id="save-note-btn" class="btn-primary">Lưu Ghi Chú</button>
-                    </div>
-                    <div class="note-output-box">
-                        <h3>Ghi chú đã lưu:</h3>
-                        <ul id="notes-list"></ul>
-                    </div>
-                </div>
-            </section>
-        </div>
-
-        <div class="right-column">
-            <section class="card social-links-card">
-                <h2>🌐 Liên kết mạng xã hội cá nhân</h2>
-                <div class="social-links-list">
-                    <a href="https://facebook.com/mr.tienhung" target="_blank" class="social-item">
-                        <span class="icon fb-icon">📘</span>
-                        <div class="social-info"><strong>Facebook Profile</strong><span>facebook.com/mr.tienhung</span></div>
-                    </a>
-                    <a href="https://instagram.com/mr_tienhung" target="_blank" class="social-item">
-                        <span class="icon ins-icon">📸</span>
-                        <div class="social-info"><strong>Instagram</strong><span>instagram.com/mr_tienhung</span></div>
-                    </a>
-                    <a href="https://threads.net/@mr.letienhung" target="_blank" class="social-item">
-                        <span class="icon threads-icon">🧵</span>
-                        <div class="social-info"><strong>Threads</strong><span>threads.net/@mr.letienhung</span></div>
-                    </a>
-                    <a href="https://tiktok.com/@mr.tienhung" target="_blank" class="social-item">
-                        <span class="icon tiktok-icon">🎵</span>
-                        <div class="social-info"><strong>TikTok</strong><span>tiktok.com/@mr.tienhung</span></div>
-                    </a>
-                    <a href="https://pinterest.com/MrTienHung" target="_blank" class="social-item">
-                        <span class="icon pin-icon">📌</span>
-                        <div class="social-info"><strong>Pinterest</strong><span>pinterest.com/MrTienHung</span></div>
-                    </a>
-                    <a href="https://discord.gg/gaU8hWdqDj" target="_blank" class="social-item">
-                        <span class="icon disc-icon">👾</span>
-                        <div class="social-info"><strong>Discord Server</strong><span>discord.gg/gaU8hWdqDj</span></div>
-                    </a>
-                </div>
-            </section>
-        </div>
+            </div>
+        </section>
     </main>
 
     <section class="container calculation-row-section">
@@ -121,28 +65,28 @@
             </div>
 
             <div class="card math-game">
-                <h2>🎮 Thách thức Tính nhẩm (Có phím số tương tác)</h2>
+                <h2>🎮 Thách thức Tính nhẩm</h2>
                 <div class="score-board">Điểm số: <span id="game-score">0</span></div>
                 <div class="game-box">
                     <div id="question">Đang tải...</div>
-                    <input type="number" id="game-answer" placeholder="Nhập hoặc ấn phím số bên dưới...">
+                    <input type="text" id="game-answer" placeholder="Bấm phím số bên dưới..." readonly>
                     
                     <div class="game-pad-grid">
-                        <button onclick="pressPad('1')">1</button>
-                        <button onclick="pressPad('2')">2</button>
-                        <button onclick="pressPad('3')">3</button>
-                        <button onclick="pressPad('4')">4</button>
-                        <button onclick="pressPad('5')">5</button>
-                        <button onclick="pressPad('6')">6</button>
-                        <button onclick="pressPad('7')">7</button>
-                        <button onclick="pressPad('8')">8</button>
-                        <button onclick="pressPad('9')">9</button>
-                        <button onclick="pressPad('-')">-</button>
-                        <button onclick="pressPad('0')">0</button>
-                        <button onclick="clearPad()" class="btn-clear-pad">Xóa</button>
+                        <button onclick="pressMathPad('1')">1</button>
+                        <button onclick="pressMathPad('2')">2</button>
+                        <button onclick="pressMathPad('3')">3</button>
+                        <button onclick="pressMathPad('4')">4</button>
+                        <button onclick="pressMathPad('5')">5</button>
+                        <button onclick="pressMathPad('6')">6</button>
+                        <button onclick="pressMathPad('7')">7</button>
+                        <button onclick="pressMathPad('8')">8</button>
+                        <button onclick="pressMathPad('9')">9</button>
+                        <button onclick="pressMathPad('-')">-</button>
+                        <button onclick="pressMathPad('0')">0</button>
+                        <button onclick="clearMathPad()" class="btn-clear-pad">Xóa</button>
                     </div>
 
-                    <button id="submit-answer-btn" class="btn-primary" style="width:100%; margin-top:10px;">Gửi kết quả</button>
+                    <button id="submit-answer-btn" class="btn-primary" style="width:100%; margin-top:12px; font-size:15px;">Gửi kết quả</button>
                     <div id="game-feedback"></div>
                 </div>
             </div>
@@ -151,7 +95,7 @@
 
     <section class="container games-arcade-section">
         <div class="card snake-card">
-            <h2>🐍 Trò chơi Rắn Săn Mồi (Đã chỉnh tốc độ chạy chậm lại)</h2>
+            <h2>🐍 Trò chơi Rắn Săn Mồi</h2>
             <div class="snake-game-container">
                 <canvas id="snakeCanvas" width="400" height="400"></canvas>
                 <div id="snake-overlay" class="game-overlay">
@@ -164,7 +108,7 @@
         </div>
 
         <div class="card dino-card">
-            <h2>🦖 Trò chơi Khủng long (Đã chỉnh tốc độ vật cản chạy chậm lại)</h2>
+            <h2>🦖 Trò chơi Khủng long</h2>
             <div class="dino-game-container">
                 <div id="dino"></div>
                 <div id="cactus"></div>
@@ -175,6 +119,38 @@
             <div class="dino-controls">
                 <button id="jump-btn" class="btn-primary" disabled>Nhảy 🦘</button>
                 <span id="dino-score">Điểm Dino: 0</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="container social-links-section">
+        <div class="card social-links-card">
+            <h2>🌐 Mạng xã hội cá nhân</h2>
+            <div class="social-icons-grid">
+                <a href="https://facebook.com/mr.tienhung" target="_blank" class="social-box fb-box" title="Facebook">
+                    <span class="s-icon">📘</span>
+                    <span class="s-name">Facebook</span>
+                </a>
+                <a href="https://instagram.com/mr_tienhung" target="_blank" class="social-box ins-box" title="Instagram">
+                    <span class="s-icon">📸</span>
+                    <span class="s-name">Instagram</span>
+                </a>
+                <a href="https://threads.net/@mr.letienhung" target="_blank" class="social-box threads-box" title="Threads">
+                    <span class="s-icon">🧵</span>
+                    <span class="s-name">Threads</span>
+                </a>
+                <a href="https://tiktok.com/@mr.tienhung" target="_blank" class="social-box tiktok-box" title="TikTok">
+                    <span class="s-icon">🎵</span>
+                    <span class="s-name">TikTok</span>
+                </a>
+                <a href="https://pinterest.com/MrTienHung" target="_blank" class="social-box pin-box" title="Pinterest">
+                    <span class="s-icon">📌</span>
+                    <span class="s-name">Pinterest</span>
+                </a>
+                <a href="https://discord.gg/gaU8hWdqDj" target="_blank" class="social-box disc-box" title="Discord">
+                    <span class="s-icon">👾</span>
+                    <span class="s-name">Discord</span>
+                </a>
             </div>
         </div>
     </section>
@@ -196,14 +172,14 @@
 
         <div class="fab-buttons">
             <button id="toggle-ai-btn" class="fab btn-ai" title="Chat với AI">🤖</button>
-            <a href="https://m.me/YourFacebookID" target="_blank" class="fab btn-messenger" title="Chat Messenger">💬</a>
+            <a href="https://m.me/100071008931641" target="_blank" class="fab btn-messenger" title="Chat Messenger">💬</a>
             <a href="https://zalo.me/0945358828" target="_blank" class="fab btn-zalo" title="Chat Zalo">🌀</a>
         </div>
     </div>
 
     <footer class="author-footer">
         <div class="author-info">
-            <p class="author-line label-title">TÁC GIẢ</p>
+            <p class="author-line label-title">TÁC GIẢ WEBSITE</p>
             <p class="author-line name">Tiến Hùng</p>
             <p class="author-line school">Trường Đại học Đông Đô</p>
             <p class="author-line major">Ngành: Công nghệ thông tin</p>
