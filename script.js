@@ -26,7 +26,7 @@ function calculateResult() {
     catch (e) { calcScreen.value = 'Lỗi'; }
 }
 
-// ================= Bàn phím tính nhẩm chuyên dụng (Đã sửa lỗi) =================
+// ================= Bàn phím tính nhẩm chuyên dụng =================
 let mathScore = 0, correctAnswer = 0;
 const gameAnswerInput = document.getElementById('game-answer');
 
@@ -37,12 +37,8 @@ function generateQuestion() {
     correctAnswer = op === '+' ? n1 + n2 : op === '-' ? n1 - n2 : n1 * n2;
 }
 
-function pressMathPad(char) {
-    gameAnswerInput.value += char;
-}
-function clearMathPad() {
-    gameAnswerInput.value = '';
-}
+function pressMathPad(char) { gameAnswerInput.value += char; }
+function clearMathPad() { gameAnswerInput.value = ''; }
 
 function checkGameAnswer() {
     const ans = parseInt(gameAnswerInput.value), fb = document.getElementById('game-feedback');
@@ -64,7 +60,7 @@ function checkGameAnswer() {
 document.getElementById('submit-answer-btn').addEventListener('click', checkGameAnswer);
 generateQuestion();
 
-// ================= Sổ tay ghi chú (Thêm và Xóa linh hoạt) =================
+// ================= Sổ tay ghi chú =================
 const noteInput = document.getElementById('note-input'), notesList = document.getElementById('notes-list');
 let savedNotes = JSON.parse(localStorage.getItem('my_web_notes')) || [];
 
@@ -106,10 +102,11 @@ document.getElementById('save-note-btn').addEventListener('click', () => {
 });
 renderNotes();
 
-// ================= Game Khủng Long =================
+// ================= Game Khủng Long (Sửa logic báo thua màn hình) =================
 const dino = document.getElementById('dino'), cactus = document.getElementById('cactus');
 const jumpBtn = document.getElementById('jump-btn'), dinoOverlay = document.getElementById('dino-overlay');
 const startDinoBtn = document.getElementById('start-game-btn');
+const dinoStatus = document.getElementById('dino-status'), dinoFinalScore = document.getElementById('dino-final-score');
 
 let dinoScore = 0, cactusPosition = 100, isJumping = false, isDinoAlive = false, dinoId = null;
 
@@ -144,7 +141,7 @@ startDinoBtn.addEventListener('click', () => {
 
 function dinoLoop() {
     if (!isDinoAlive) { dinoId = null; return; }
-    cactusPosition -= 1.2; 
+    cactusPosition -= 1.3; 
     if (cactusPosition < -4) {
         cactusPosition = 100; dinoScore += 1;
         document.getElementById('dino-score').innerText = `Điểm Dino: ${dinoScore}`;
@@ -157,18 +154,23 @@ function dinoLoop() {
 
     if (cactusLeftPx >= 40 && cactusLeftPx <= 62 && dinoBottom <= 25) {
         isDinoAlive = false; jumpBtn.disabled = true;
-        dinoOverlay.style.display = 'flex';
+        
+        // Cập nhật trạng thái thua lên màn hình
+        dinoStatus.innerText = "GAME OVER";
+        dinoFinalScore.innerText = `Điểm đạt được: ${dinoScore}`;
         startDinoBtn.innerText = "🔄 Chơi lại";
-        alert(`Kết thúc! Điểm của bạn: ${dinoScore}`);
+        dinoOverlay.style.display = 'flex';
+        return;
     }
     dinoId = requestAnimationFrame(dinoLoop);
 }
 
-// ================= Game Rắn săn mồi =================
+// ================= Game Rắn săn mồi (Sửa logic báo thua màn hình) =================
 const canvas = document.getElementById("snakeCanvas");
 const ctx = canvas.getContext("2d");
 const snakeOverlay = document.getElementById("snake-overlay");
 const startSnakeBtn = document.getElementById("start-snake-btn");
+const snakeStatus = document.getElementById("snake-status"), snakeFinalScore = document.getElementById("snake-final-score");
 
 const box = 20;
 let snake, food, snakeScore, d, snakeGameInterval = null;
@@ -242,9 +244,12 @@ function drawSnake() {
 
     if (snakeX < 0 || snakeX >= canvas.width || snakeY < 0 || snakeY >= canvas.height || collision(newHead, snake)) {
         clearInterval(snakeGameInterval);
+        
+        // Cập nhật trạng thái thua lên màn hình thay vì dùng alert
+        snakeStatus.innerText = "GAME OVER";
+        snakeFinalScore.innerText = `Điểm đạt được: ${snakeScore}`;
+        startSnakeBtn.innerText = "🔄 Chơi lại";
         snakeOverlay.style.display = "flex";
-        startSnakeBtn.innerText = "🔄 Chơi lại Rắn";
-        alert(`Game Over! Điểm Rắn: ${snakeScore}`);
         return;
     }
     snake.unshift(newHead);
@@ -273,7 +278,7 @@ function handleSendMessage() {
     chatInput.value = '';
     
     setTimeout(() => {
-        appendMessage("Mã nguồn trang web tiện ích đã được cập nhật thành công!", 'ai');
+        appendMessage("Mã nguồn giao diện mới và tính năng Game Over đã được đồng bộ!", 'ai');
     }, 600);
 }
 sendChatBtn.addEventListener('click', handleSendMessage);
