@@ -34,7 +34,7 @@ body { background-color: var(--bg-color); color: var(--text-color); }
 .intro-banner { background: var(--card-bg); border-bottom: 1px solid var(--border-color); padding: 20px 0; text-align: center; }
 .intro-banner h2 { margin-bottom: 10px; }
 
-/* Layout hai cột chính */
+/* Layout chính */
 .main-layout { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; margin-top: 10px; }
 .card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 20px; margin-bottom: 20px; }
 .card h2 { font-size: 18px; margin-bottom: 15px; border-left: 4px solid var(--accent-color); padding-left: 10px; }
@@ -70,25 +70,32 @@ body { background-color: var(--bg-color); color: var(--text-color); }
 .game-box input { margin-bottom: 10px; text-align: center; font-size: 16px; }
 #game-feedback { margin-top: 8px; font-weight: bold; text-align: center; }
 
-/* Game Khủng Long với màn phủ Bắt đầu */
-.dino-section { margin-top: 10px; margin-bottom: 40px; }
-.dino-game-container { width: 100%; height: 150px; background: #f0f0f0; border: 2px solid #555; position: relative; overflow: hidden; border-radius: 6px; }
-#dino { width: 30px; height: 40px; background: #333; position: absolute; bottom: 0; left: 50px; border-radius: 4px; }
-#cactus { width: 15px; height: 30px; background: #d32f2f; position: absolute; bottom: 0; left: 100%; border-radius: 2px; }
-.dino-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; z-index: 10; }
-.btn-start-dino { background: #ff9800; color: white; border: none; padding: 12px 24px; font-size: 16px; font-weight: bold; border-radius: 20px; cursor: pointer; transition: 0.2s; }
-.btn-start-dino:hover { background: #e68a00; transform: scale(1.05); }
-.dino-controls { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; }
-#dino-score { font-weight: bold; font-family: monospace; }
+/* Layout khu vực Trò chơi chuyên sâu */
+.games-arcade-section { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 10px; margin-bottom: 40px; }
+.game-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: flex; align-items: center; justify-content: center; z-index: 10; }
+.btn-start-game { background: #ff9800; color: white; border: none; padding: 12px 24px; font-size: 15px; font-weight: bold; border-radius: 20px; cursor: pointer; transition: 0.2s; }
+.btn-start-game:hover { background: #e68a00; transform: scale(1.05); }
+.game-controls-info { margin-top: 10px; font-weight: bold; font-family: monospace; }
 
-/* Tiện ích Khung Chat ở góc phải dưới */
+/* CSS Game Rắn Canvas */
+.snake-game-container { width: 100%; display: flex; justify-content: center; align-items: center; background: #111; border: 2px solid #555; border-radius: 6px; position: relative; padding: 10px; }
+#snakeCanvas { background: #000; max-width: 100%; height: auto; display: block; border-radius: 4px; }
+
+/* CSS Game Khủng Long */
+.dino-game-container { width: 100%; height: 150px; background: #f0f0f0; border: 2px solid #555; position: relative; overflow: hidden; border-radius: 6px; margin-top: 12px; margin-bottom: 12px; }
+#dino { width: 24px; height: 36px; background: #333; position: absolute; bottom: 0; left: 50px; border-radius: 4px; }
+#cactus { width: 14px; height: 28px; background: #d32f2f; position: absolute; bottom: 0; left: 100%; border-radius: 2px; }
+.dino-controls { display: flex; justify-content: space-between; align-items: center; }
+#dino-score, #snake-score { font-size: 15px; font-weight: bold; color: var(--accent-hover); }
+
+/* Tiện ích Khung Chat nổi */
 .chat-widget-container { position: fixed; bottom: 20px; right: 20px; z-index: 1000; display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
 .fab-buttons { display: flex; flex-direction: column; gap: 8px; }
 .fab { width: 48px; height: 48px; border-radius: 50%; border: none; color: white; font-size: 20px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.3); text-decoration: none; transition: 0.2s; }
 .fab:hover { transform: scale(1.1); }
 .btn-ai { background: #3f51b5; }
 .btn-messenger { background: #0084ff; }
-.btn-zalo { background: #0068ff; font-weight: bold; }
+.btn-zalo { background: #0068ff; }
 
 /* Hộp thoại AI Chat */
 .ai-chat-box { width: 300px; height: 380px; background: var(--card-bg); border: 2px solid var(--border-color); border-radius: 12px; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 5px 20px rgba(0,0,0,0.4); margin-bottom: 5px; }
@@ -104,14 +111,14 @@ body { background-color: var(--bg-color); color: var(--text-color); }
 .chat-footer input { flex: 1; padding: 8px; border: 1px solid var(--border-color); background: rgba(0,0,0,0.05); color: var(--text-color); border-radius: 4px; outline: none; }
 .chat-footer button { background: #3f51b5; color: white; border: none; padding: 0 12px; border-radius: 4px; cursor: pointer; }
 
-/* Chân trang CĂN GIỮA - MỖI CÁI 1 DÒNG */
+/* Chân trang CĂN GIỮA TUYỆT ĐỐI */
 .author-footer { background: var(--navbar-bg); color: #fff; padding: 40px 20px; border-top: 3px solid var(--accent-color); text-align: center; }
-.author-info { display: flex; flex-direction: column; gap: 8px; margin-bottom: 25px; align-items: center; justify-content: center; }
-.author-line { font-size: 15px; color: #cccccc; margin: 0; width: 100%; text-align: center; }
+.author-info { display: flex; flex-direction: column; gap: 8px; margin-bottom: 25px; align-items: center; justify-content: center; text-align: center; }
+.author-line { font-size: 15px; color: #cccccc; margin: 0; text-align: center; width: 100%; }
 .author-info .label-title { font-size: 13px; letter-spacing: 3px; color: var(--accent-hover); font-weight: bold; margin-bottom: 4px; }
 .author-info .name { font-size: 24px; font-weight: bold; color: #ffffff; margin-bottom: 5px; }
 .author-info .school { font-size: 16px; color: #e0e0e0; font-weight: 500; }
 .author-info .student-id, .author-info .phone, .author-info .dob { font-family: monospace; font-size: 14px; }
 .copyright { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px; font-size: 12px; color: #666; }
 
-@media (max-width: 768px) { .main-layout, .notes-container { grid-template-columns: 1fr; } }
+@media (max-width: 768px) { .main-layout, .notes-container, .games-arcade-section { grid-template-columns: 1fr; } }
