@@ -3,84 +3,199 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cloud CI/CD Demo - Math App</title>
+    <title>Cloud CI/CD Demo - Tiến Hùng</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="dark-theme">
 
-    <div class="container">
-        <div class="card calculator">
-            <h2>🧮 Máy tính Số học</h2>
-            <input type="text" id="calc-screen" placeholder="0" readonly>
-            
-            <div class="calc-buttons">
-                <button onclick="clearCalc()" class="btn-calc-clear">C</button>
-                <button onclick="pressCalc('/')">/</button>
-                <button onclick="pressCalc('*')">*</button>
-                <button onclick="pressCalc('-')">-</button>
-                
-                <button onclick="pressCalc('7')">7</button>
-                <button onclick="pressCalc('8')">8</button>
-                <button onclick="pressCalc('9')">9</button>
-                <button onclick="pressCalc('+')">+</button>
-                
-                <button onclick="pressCalc('4')">4</button>
-                <button onclick="pressCalc('5')">5</button>
-                <button onclick="pressCalc('6')">6</button>
-                
-                <button onclick="pressCalc('1')">1</button>
-                <button onclick="pressCalc('2')">2</button>
-                <button onclick="pressCalc('3')">3</button>
-                <button onclick="calculateResult()" class="btn-calc-equal">=</button>
-                
-                <button onclick="pressCalc('0')" style="grid-column: span 2;">0</button>
-                <button onclick="pressCalc('.')">.</button>
-            </div>
+    <header class="navbar">
+        <div class="logo">Trang Tiện Ích <span class="demo-tag">CI/CD Demo</span></div>
+        <div class="nav-right">
+            <div id="clock" class="clock-display">Đang tải thời gian...</div>
+            <button id="theme-toggle" class="btn-beauty btn-theme">☀️ Chế độ sáng</button>
         </div>
+    </header>
 
-        <div class="card math-game">
-            <h2>🎮 Thách thức Tính nhẩm</h2>
-            <div class="score-board">Điểm số: <span id="game-score">0</span></div>
-            <div class="game-box">
-                <div id="question">Đang tải...</div>
-                <input type="text" id="game-answer" placeholder="Bấm phím số bên dưới..." readonly>
-                
-                <div class="game-pad-grid">
-                    <button onclick="pressMathPad('1')">1</button>
-                    <button onclick="pressMathPad('2')">2</button>
-                    <button onclick="pressMathPad('3')">3</button>
-                    <button onclick="pressMathPad('4')">4</button>
-                    <button onclick="pressMathPad('5')">5</button>
-                    <button onclick="pressMathPad('6')">6</button>
-                    <button onclick="pressMathPad('7')">7</button>
-                    <button onclick="pressMathPad('8')">8</button>
-                    <button onclick="pressMathPad('9')">9</button>
-                    <button onclick="pressMathPad('-')">-</button>
-                    <button onclick="pressMathPad('0')">0</button>
-                    <button onclick="clearMathPad()" class="btn-pad-clear">Xóa</button>
+    <section class="intro-banner">
+        <div class="container">
+            <h2>Hệ thống Tự động hóa Triển khai Website bằng GitHub Actions</h2>
+            <p>Trang web thực hành tích hợp các công cụ hỗ trợ học tập, tính toán và giải trí cá nhân.</p>
+        </div>
+    </section>
+
+    <main class="container main-layout">
+        <section class="card notes-section">
+            <h2>📝 Sổ tay Ghi chú (Hỗ trợ Thêm & Xóa mục)</h2>
+            <div class="notes-container">
+                <div class="note-input-box">
+                    <textarea id="note-input" placeholder="Nhập nội dung ghi chú mới vào đây..."></textarea>
+                    <button id="save-note-btn" class="btn-beauty btn-submit">Lưu Ghi Chú</button>
                 </div>
+                <div class="note-output-box">
+                    <h3>Danh sách ghi chú đã lưu:</h3>
+                    <ul id="notes-list"></ul>
+                </div>
+            </div>
+        </section>
+    </main>
 
-                <button id="submit-answer-btn" class="btn-beauty btn-submit" style="width: 100%; margin-top: 15px;">Gửi kết quả</button>
-                <div id="game-feedback"></div>
+    <section class="container calculation-row-section">
+        <div class="calc-math-grid">
+            <div class="card calculator">
+                <h2>🧮 Máy tính Số học</h2>
+                <input type="text" id="calc-screen" readonly>
+                <div class="calc-buttons">
+                    <button onclick="clearCalc()" class="btn-calc-clear">C</button>
+                    <button onclick="pressCalc('/')">/</button>
+                    <button onclick="pressCalc('*')">*</button>
+                    <button onclick="pressCalc('-')">-</button>
+                    <button onclick="pressCalc('7')">7</button>
+                    <button onclick="pressCalc('8')">8</button>
+                    <button onclick="pressCalc('9')">9</button>
+                    <button onclick="pressCalc('+')">+</button>
+                    <button onclick="pressCalc('4')">4</button>
+                    <button onclick="pressCalc('5')">5</button>
+                    <button onclick="pressCalc('6')">6</button>
+                    <button onclick="calculateResult()" class="btn-calc-equal">=</button>
+                    <button onclick="pressCalc('1')">1</button>
+                    <button onclick="pressCalc('2')">2</button>
+                    <button onclick="pressCalc('3')">3</button>
+                    <button onclick="pressCalc('0')">0</button>
+                </div>
+            </div>
+
+            <div class="card math-game">
+                <h2>🎮 Thách thức Tính nhẩm</h2>
+                <div class="score-board">Điểm số: <span id="game-score">0</span></div>
+                <div class="game-box">
+                    <div id="question">Đang tải...</div>
+                    <input type="text" id="game-answer" placeholder="Bấm phím số bên dưới..." readonly>
+                    
+                    <div class="game-pad-grid">
+                        <button onclick="pressMathPad('1')">1</button>
+                        <button onclick="pressMathPad('2')">2</button>
+                        <button onclick="pressMathPad('3')">3</button>
+                        <button onclick="pressMathPad('4')">4</button>
+                        <button onclick="pressMathPad('5')">5</button>
+                        <button onclick="pressMathPad('6')">6</button>
+                        <button onclick="pressMathPad('7')">7</button>
+                        <button onclick="pressMathPad('8')">8</button>
+                        <button onclick="pressMathPad('9')">9</button>
+                        <button onclick="pressMathPad('-')">-</button>
+                        <button onclick="pressMathPad('0')">0</button>
+                        <button onclick="clearMathPad()" class="btn-pad-clear">Xóa</button>
+                    </div>
+
+                    <button id="submit-answer-btn" class="btn-beauty btn-submit" style="width:100%; margin-top:12px;">Gửi kết quả</button>
+                    <div id="game-feedback"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="container games-arcade-section">
+        <div class="card snake-card">
+            <h2>🐍 Trò chơi Rắn Săn Mồi</h2>
+            <div class="snake-game-container">
+                <canvas id="snakeCanvas" width="400" height="400"></canvas>
+                <div id="snake-overlay" class="game-overlay">
+                    <div class="overlay-content">
+                        <h1 id="snake-status"></h1>
+                        <p id="snake-final-score" style="margin-bottom: 15px; font-weight: bold; color: #ffeb3b;"></p>
+                        <button id="start-snake-btn" class="btn-beauty btn-play">▶ Bắt đầu chơi</button>
+                    </div>
+                </div>
+            </div>
+            <div class="game-controls-info">
+                <span id="snake-score">Điểm Rắn: 0</span>
             </div>
         </div>
 
-        <div class="card notes-section">
-            <h2>📝 Nhật ký Ghi chú</h2>
-            <textarea id="note-input" placeholder="Nhập nhanh công thức hoặc ghi chú vào đây..."></textarea>
-            <button id="save-note-btn" class="btn-beauty btn-note" style="width: 100%; margin-top: 10px;">Lưu Ghi Chú</button>
-            <ul id="notes-list"></ul>
+        <div class="card dino-card">
+            <h2>🦖 Trò chơi Khủng long</h2>
+            <div class="dino-game-container">
+                <div id="dino"></div>
+                <div id="cactus"></div>
+                <div id="dino-overlay" class="game-overlay">
+                    <div class="overlay-content">
+                        <h1 id="dino-status"></h1>
+                        <p id="dino-final-score" style="margin-bottom: 15px; font-weight: bold; color: #ffeb3b;"></p>
+                        <button id="start-game-btn" class="btn-beauty btn-play">▶ Bắt đầu chơi</button>
+                    </div>
+                </div>
+            </div>
+            <div class="dino-controls">
+                <button id="jump-btn" class="btn-beauty btn-action" disabled>Nhảy 🦘</button>
+                <span id="dino-score">Điểm Dino: 0</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="container social-links-section">
+        <div class="card social-links-card">
+            <h2>🌐 Mạng xã hội cá nhân</h2>
+            <div class="social-icons-grid">
+                <a href="https://facebook.com/mr.tienhung" target="_blank" class="social-box fb-box" title="Facebook">
+                    <span class="s-icon">📘</span>
+                    <span class="s-name">Facebook</span>
+                </a>
+                <a href="https://instagram.com/mr_tienhung" target="_blank" class="social-box ins-box" title="Instagram">
+                    <span class="s-icon">📸</span>
+                    <span class="s-name">Instagram</span>
+                </a>
+                <a href="https://threads.net/@mr.letienhung" target="_blank" class="social-box threads-box" title="Threads">
+                    <span class="s-icon">🧵</span>
+                    <span class="s-name">Threads</span>
+                </a>
+                <a href="https://tiktok.com/@mr.tienhung" target="_blank" class="social-box tiktok-box" title="TikTok">
+                    <span class="s-icon">🎵</span>
+                    <span class="s-name">TikTok</span>
+                </a>
+                <a href="https://pinterest.com/MrTienHung" target="_blank" class="social-box pin-box" title="Pinterest">
+                    <span class="s-icon">📌</span>
+                    <span class="s-name">Pinterest</span>
+                </a>
+                <a href="https://discord.gg/gaU8hWdqDj" target="_blank" class="social-box disc-box" title="Discord">
+                    <span class="s-icon">👾</span>
+                    <span class="s-name">Discord</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <div class="chat-widget-container">
+        <div id="ai-chat-box" class="ai-chat-box hidden">
+            <div class="chat-header">
+                <span>🤖 Trợ lý AI</span>
+                <button id="close-chat-btn">×</button>
+            </div>
+            <div id="chat-content" class="chat-content">
+                <div class="msg system">Chào bạn! Mình có thể giúp gì cho bạn?</div>
+            </div>
+            <div class="chat-footer">
+                <input type="text" id="chat-input" placeholder="Nhập tin nhắn...">
+                <button id="send-chat-btn">Gửi</button>
+            </div>
+        </div>
+
+        <div class="fab-buttons">
+            <button id="toggle-ai-btn" class="fab btn-ai">🤖</button>
+            <a href="https://m.me/100071008931641" target="_blank" class="fab btn-messenger">💬</a>
+            <a href="https://zalo.me/0945358828" target="_blank" class="fab btn-zalo">🌀</a>
         </div>
     </div>
 
-    <div id="game-over-modal" class="modal">
-        <div class="modal-content">
-            <h2>💥 GAME OVER 💥</h2>
-            <p>Thời gian đã hết! Bạn rất cố gắng rồi.</p>
-            <div class="final-score">Tổng điểm: <span id="final-score-val">0</span></div>
-            <button onclick="restartGame()" class="btn-beauty btn-restart">🔄 Chơi lại</button>
+    <footer class="author-footer">
+        <div class="author-info">
+            <p class="author-line label-title">TÁC GIẢ WEBSITE</p>
+            <p class="author-line name">Tiến Hùng</p>
+            <p class="author-line school">Trường Đại học Đông Đô</p>
+            <p class="author-line student-id">MSV: CT5280117</p>
         </div>
-    </div>
+        <div class="copyright">
+            <p>© 2026 Cloud CI/CD Demo. All Rights Reserved.</p>
+        </div>
+    </footer>
 
     <script src="script.js"></script>
 </body>
