@@ -27,7 +27,7 @@
         
         <div class="left-column">
             <section class="card">
-                <h2>Minecraft Seed Map Viewer</h2>
+                <h2>Minecraft Seed Map Viewer (Mô phỏng quần xã)</h2>
                 <div class="control-panel">
                     <div class="input-group">
                         <label>Seed:</label>
@@ -48,7 +48,7 @@
             </section>
 
             <section class="card notes-section">
-                <h2>📝 Sổ tay Ghi chú</h2>
+                <h2>📝 Sổ tay Ghi chú (Hỗ trợ thêm/xóa)</h2>
                 <div class="notes-container">
                     <div class="note-input-box">
                         <textarea id="note-input" placeholder="Nhập nội dung ghi chú vào đây..."></textarea>
@@ -63,7 +63,41 @@
         </div>
 
         <div class="right-column">
-            <section class="card calculator">
+            <section class="card social-links-card">
+                <h2>🌐 Liên kết mạng xã hội cá nhân</h2>
+                <div class="social-links-list">
+                    <a href="https://facebook.com/mr.tienhung" target="_blank" class="social-item">
+                        <span class="icon fb-icon">📘</span>
+                        <div class="social-info"><strong>Facebook Profile</strong><span>facebook.com/mr.tienhung</span></div>
+                    </a>
+                    <a href="https://instagram.com/mr_tienhung" target="_blank" class="social-item">
+                        <span class="icon ins-icon">📸</span>
+                        <div class="social-info"><strong>Instagram</strong><span>instagram.com/mr_tienhung</span></div>
+                    </a>
+                    <a href="https://threads.net/@mr.letienhung" target="_blank" class="social-item">
+                        <span class="icon threads-icon">🧵</span>
+                        <div class="social-info"><strong>Threads</strong><span>threads.net/@mr.letienhung</span></div>
+                    </a>
+                    <a href="https://tiktok.com/@mr.tienhung" target="_blank" class="social-item">
+                        <span class="icon tiktok-icon">🎵</span>
+                        <div class="social-info"><strong>TikTok</strong><span>tiktok.com/@mr.tienhung</span></div>
+                    </a>
+                    <a href="https://pinterest.com/MrTienHung" target="_blank" class="social-item">
+                        <span class="icon pin-icon">📌</span>
+                        <div class="social-info"><strong>Pinterest</strong><span>pinterest.com/MrTienHung</span></div>
+                    </a>
+                    <a href="https://discord.gg/gaU8hWdqDj" target="_blank" class="social-item">
+                        <span class="icon disc-icon">👾</span>
+                        <div class="social-info"><strong>Discord Server</strong><span>discord.gg/gaU8hWdqDj</span></div>
+                    </a>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <section class="container calculation-row-section">
+        <div class="calc-math-grid">
+            <div class="card calculator">
                 <h2>🧮 Máy tính Số học</h2>
                 <input type="text" id="calc-screen" readonly>
                 <div class="calc-buttons">
@@ -84,24 +118,40 @@
                     <button onclick="pressCalc('3')">3</button>
                     <button onclick="pressCalc('0')">0</button>
                 </div>
-            </section>
+            </div>
 
-            <section class="card math-game">
-                <h2>🎮 Thách thức Tính nhẩm</h2>
+            <div class="card math-game">
+                <h2>🎮 Thách thức Tính nhẩm (Có phím số tương tác)</h2>
                 <div class="score-board">Điểm số: <span id="game-score">0</span></div>
                 <div class="game-box">
-                    <div id="question">Loading...</div>
-                    <input type="number" id="game-answer" placeholder="Đáp án?">
-                    <button id="submit-answer-btn" class="btn-primary">Gửi</button>
+                    <div id="question">Đang tải...</div>
+                    <input type="number" id="game-answer" placeholder="Nhập hoặc ấn phím số bên dưới...">
+                    
+                    <div class="game-pad-grid">
+                        <button onclick="pressPad('1')">1</button>
+                        <button onclick="pressPad('2')">2</button>
+                        <button onclick="pressPad('3')">3</button>
+                        <button onclick="pressPad('4')">4</button>
+                        <button onclick="pressPad('5')">5</button>
+                        <button onclick="pressPad('6')">6</button>
+                        <button onclick="pressPad('7')">7</button>
+                        <button onclick="pressPad('8')">8</button>
+                        <button onclick="pressPad('9')">9</button>
+                        <button onclick="pressPad('-')">-</button>
+                        <button onclick="pressPad('0')">0</button>
+                        <button onclick="clearPad()" class="btn-clear-pad">Xóa</button>
+                    </div>
+
+                    <button id="submit-answer-btn" class="btn-primary" style="width:100%; margin-top:10px;">Gửi kết quả</button>
                     <div id="game-feedback"></div>
                 </div>
-            </section>
+            </div>
         </div>
-    </main>
+    </section>
 
     <section class="container games-arcade-section">
         <div class="card snake-card">
-            <h2>🐍 Trò chơi Rắn Săn Mồi (Sử dụng phím Mũi tên để di chuyển)</h2>
+            <h2>🐍 Trò chơi Rắn Săn Mồi (Đã chỉnh tốc độ chạy chậm lại)</h2>
             <div class="snake-game-container">
                 <canvas id="snakeCanvas" width="400" height="400"></canvas>
                 <div id="snake-overlay" class="game-overlay">
@@ -114,7 +164,7 @@
         </div>
 
         <div class="card dino-card">
-            <h2>🦖 Trò chơi Khủng long (Bấm 'Dấu cách' để nhảy khi đã Bắt đầu)</h2>
+            <h2>🦖 Trò chơi Khủng long (Đã chỉnh tốc độ vật cản chạy chậm lại)</h2>
             <div class="dino-game-container">
                 <div id="dino"></div>
                 <div id="cactus"></div>
