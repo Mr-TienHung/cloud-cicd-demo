@@ -3,59 +3,122 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cloud CI/CD Demo - Chunkbase Interactive</title>
+    <title>Cloud CI/CD Demo - Chunkbase Advance</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="dark-theme">
-
-    <header class="navbar">
+<body class="dark-theme"> <header class="navbar">
         <div class="logo">Chunkbase <span class="demo-tag">CI/CD Demo</span></div>
-        <div class="intro-text">Ứng dụng đa năng tích hợp công cụ mô phỏng & Tiện ích giải trí</div>
         <div class="nav-right">
-            <div id="live-clock" class="clock-box"></div>
-            <button id="theme-toggle" class="btn-toggle">☀️ Chế độ Sáng</button>
+            <div id="clock" class="clock-display">Đang tải thời gian...</div>
+            <button id="theme-toggle" class="btn-toggle">☀️ Chế độ sáng</button>
         </div>
     </header>
 
-    <main class="container">
-        <h1>Minecraft Seed Map Viewer & Workspace</h1>
+    <section class="intro-banner">
+        <div class="container">
+            <h2>Chào mừng đến với Hệ thống Mô phỏng Chunkbase & Tiện ích mở rộng</h2>
+            <p>Trang web được xây dựng nhằm mục đích thực hành quy trình tự động hóa triển khai mã nguồn **Cloud CI/CD (GitHub Actions)**. Tại đây, bạn có thể trải nghiệm các công cụ giả lập bản đồ Minecraft cùng các widget hỗ trợ tính toán, giải trí cực kỳ tiện lợi.</p>
+        </div>
+    </section>
+
+    <main class="container main-layout">
         
-        <section class="control-panel">
-            <div class="input-group">
-                <label for="seed">Seed:</label>
-                <input type="text" id="seed" placeholder="Nhập mã seed tại đây..." value="1234567890">
-            </div>
-            <div class="input-group">
-                <label for="version">Phiên bản:</label>
-                <select id="version">
-                    <option>Java 1.21.5</option>
-                    <option>Java 1.20</option>
-                    <option>Bedrock 1.21</option>
-                </select>
-            </div>
-            <button class="btn-find" onclick="alert('Đang quét cấu trúc thế giới...')">Tìm kiếm</button>
-        </section>
+        <div class="left-column">
+            <section class="card">
+                <h2>Minecraft Seed Map Viewer</h2>
+                <div class="control-panel">
+                    <div class="input-group">
+                        <label>Seed:</label>
+                        <input type="text" id="seed" value="1234567890">
+                    </div>
+                    <button class="btn-find" onclick="alert('Đang quét tìm cấu trúc...')">Tìm kiếm</button>
+                </div>
+                <div class="map-wrapper">
+                    <div class="map-grid">
+                        <div class="chunk stronghold">Stronghold</div>
+                        <div class="chunk ocean">Ocean</div>
+                        <div class="chunk village">Village</div>
+                        <div class="chunk spawn">Spawn</div>
+                        <div class="chunk monument">Monument</div>
+                        <div class="chunk slime">Slime Chunk</div>
+                    </div>
+                </div>
+            </section>
 
-        <section class="map-wrapper">
-            <div class="map-grid">
-                <div class="chunk stronghold">Stronghold</div>
-                <div class="chunk ocean">Ocean</div>
-                <div class="chunk village">Village</div>
-                <div class="chunk spawn">Spawn</div>
-                <div class="chunk monument">Monument</div>
-                <div class="chunk desert">Desert</div>
-                <div class="chunk nether">Nether Portal</div>
-                <div class="chunk slime">Slime Chunk</div>
-                <div class="chunk mansion">Mansion</div>
-            </div>
-            <div class="coordinates">Tọa độ: <span class="coord-val">X: 256, Z: -512</span></div>
-        </section>
+            <section class="card notes-section">
+                <h2>📝 Sổ tay Ghi chú</h2>
+                <div class="notes-container">
+                    <div class="note-input-box">
+                        <textarea id="note-input" placeholder="Nhập nội dung ghi chú vào đây..."></textarea>
+                        <button id="save-note-btn" class="btn-primary">Lưu Ghi Chú</button>
+                    </div>
+                    <div class="note-output-box">
+                        <h3>Ghi chú đã lưu:</h3>
+                        <ul id="notes-list">
+                            </ul>
+                    </div>
+                </div>
+            </section>
+        </div>
 
-        <div class="utility-grid">
-            <section class="widget-box calculator">
-                <h3>🧮 Máy tính bỏ túi</h3>
+        <div class="right-column">
+            <section class="card calculator">
+                <h2>🧮 Máy tính Số học</h2>
                 <input type="text" id="calc-screen" readonly>
                 <div class="calc-buttons">
-                    <button onclick="clearCalc()">C</button>
+                    <button onclick="clearCalc()" class="btn-clear">C</button>
                     <button onclick="pressCalc('/')">/</button>
-                    <button onclick="pressCalc('*
+                    <button onclick="pressCalc('*')">*</button>
+                    <button onclick="pressCalc('-')">-</button>
+                    <button onclick="pressCalc('7')">7</button>
+                    <button onclick="pressCalc('8')">8</button>
+                    <button onclick="pressCalc('9')">9</button>
+                    <button onclick="pressCalc('+')">+</button>
+                    <button onclick="pressCalc('4')">4</button>
+                    <button onclick="pressCalc('5')">5</button>
+                    <button onclick="pressCalc('6')">6</button>
+                    <button onclick="calculateResult()" class="btn-equal">=</button>
+                    <button onclick="pressCalc('1')">1</button>
+                    <button onclick="pressCalc('2')">2</button>
+                    <button onclick="pressCalc('3')">3</button>
+                    <button onclick="pressCalc('0')">0</button>
+                </div>
+            </section>
+
+            <section class="card math-game">
+                <h2>🎮 Thách thức Tính nhẩm</h2>
+                <div class="score-board">Điểm số: <span id="game-score">0</span></div>
+                <div class="game-box">
+                    <div id="question">Loading...</div>
+                    <input type="number" id="game-answer" placeholder="Đáp án?">
+                    <button id="submit-answer-btn" class="btn-primary">Gửi</button>
+                    <div id="game-feedback"></div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <section class="container dino-section">
+        <div class="card">
+            <h2>🦖 Trò chơi Khủng long (Bấm 'Dấu cách' hoặc Click vào nút Nhảy để chơi)</h2>
+            <div class="dino-game-container">
+                <div id="dino"></div>
+                <div id="cactus"></div>
+            </div>
+            <div class="dino-controls">
+                <button id="jump-btn" class="btn-primary">Nhảy 🦘</button>
+                <span id="dino-score">Điểm Dino: 0</span>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p><strong>Tác giả:</strong> Tiến Hùng - Sinh viên lớp Công nghệ thông tin</p>
+            <p>© 2026 Cloud CI/CD Demo. Mọi quyền được bảo lưu.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
