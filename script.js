@@ -1,125 +1,170 @@
-// ==================== 1. TÍNH NĂNG: NGÀY VÀ GIỜ HỆ THỐNG ====================
+// --- 1. ĐỒNG HỒ NGÀY GIỜ LIÊN TỤC ---
 function updateClock() {
     const now = new Date();
-    const timeStr = now.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-    const dateStr = now.toLocaleDateString('vi-VN');
-    document.getElementById('datetime-display').innerText = `${dateStr} - ${timeStr}`;
+    const options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
+    document.getElementById('live-clock').innerText = now.toLocaleString('vi-VN', options);
 }
 setInterval(updateClock, 1000);
 updateClock();
 
-// ==================== 2. TÍNH NĂNG: ĐỔI GIAO DIỆN SÁNG / TỐI ====================
-const themeToggleBtn = document.getElementById('theme-toggle');
-themeToggleBtn.addEventListener('click', () => {
-    if (document.body.classList.contains('dark-theme')) {
-        document.body.classList.replace('dark-theme', 'light-theme');
-        themeToggleBtn.innerText = "🌙 Chế độ Tối";
+// --- 2. ĐỔI GIAO DIỆN SÁNG / TỐI (THEME TOGGLE) ---
+const themeToggle = document.getElementById('theme-toggle');
+themeToggle.addEventListener('click', () => {
+    document.body.classList.toggle('light-theme');
+    if (document.body.classList.contains('light-theme')) {
+        themeToggle.innerText = "🌙 Chế độ Tối";
     } else {
-        document.body.classList.replace('light-theme', 'dark-theme');
-        themeToggleBtn.innerText = "☀️ Chế độ Sáng";
+        themeToggle.innerText = "☀️ Chế độ Sáng";
     }
 });
 
-// ==================== 3. TÍNH NĂNG: MÁY TÍNH SỐ ====================
+// --- 3. MÁY TÍNH BỎ TÚI ---
 const calcScreen = document.getElementById('calc-screen');
-function pressCalc(value) {
-    calcScreen.value += value;
-}
-function clearCalc() {
-    calcScreen.value = '';
-}
+function pressCalc(val) { calcScreen.value += val; }
+function clearCalc() { calcScreen.value = ''; }
 function calculateResult() {
-    try {
-        if (calcScreen.value) {
-            calcScreen.value = eval(calcScreen.value); // Xử lý phép tính cơ bản
-        }
-    } catch (error) {
-        calcScreen.value = 'Lỗi!';
-    }
+    try { calcScreen.value = eval(calcScreen.value); } 
+    catch (e) { calcScreen.value = 'Lỗi biểu thức'; }
 }
 
-// ==================== 4. TÍNH NĂNG: GHI CHÚ TỰ ĐỘNG LƯU (LOCALSTORAGE) ====================
-const notesArea = document.getElementById('notes-area');
-// Tải ghi chú cũ lên nếu có
-if(localStorage.getItem('chunkbase_notes')) {
-    notesArea.value = localStorage.getItem('chunkbase_notes');
+// --- 4. ỨNG DỤNG GHI CHÚ NHANH ---
+function saveNote() {
+    const text = document.getElementById('note-input').value;
+    localStorage.setItem('chunk_user_note', text);
+    const status = document.getElementById('saved-note-status');
+    status.innerText = "✅ Đã lưu ghi chú vào bộ nhớ máy!";
+    status.style.color = "#4caf50";
+    setTimeout(() => status.innerText = "", 2500);
 }
-// Lắng nghe sự kiện gõ phím để lưu luôn
-notesArea.addEventListener('input', () => {
-    localStorage.setItem('chunkbase_notes', notesArea.value);
-});
-
-// ==================== 5. TÍNH NĂNG: TRÒ CHƠI KHỦNG LONG (DINO GAME) ====================
-const dino = document.getElementById('dino');
-const cactus = document.getElementById('cactus');
-const scoreSpan = document.getElementById('score');
-const gameContainer = document.getElementById('game-container');
-
-let score = 0;
-let isPlaying = false;
-let gameLoop;
-
-function jump() {
-    if (!dino.classList.contains('jump')) {
-        dino.classList.add('jump');
-        setTimeout(() => {
-            dino.classList.remove('jump');
-        }, 500);
-    }
+// Tự động tải lại ghi chú cũ nếu có khi load trang
+window.onload = function() {
+    const saved = localStorage.getItem('chunk_user_note');
+    if(saved) document.getElementById('note-input').value = saved;
+    generateMathQuestion();
 }
 
-// Nhảy bằng phím Space (Phím cách)
-document.addEventListener('keydown', (e) => {
-    if (e.code === 'Space') {
-        e.preventDefault(); // Tránh bị cuộn trang khi nhấn Space ngoài ý muốn
-        jump();
-    }
-});
+// --- 5. TRÒ CHƠI TÍNH NHẨM CỘNG ĐIỂM ---
+let num1, num2, currentAnswer;
+let currentScore = 0;
 
-// Nhảy bằng cách bấm chuột thẳng vào khung Game
-gameContainer.addEventListener('click', () => {
-    jump();
-});
-
-function startGame() {
-    // Reset thông số
-    score = 0;
-    scoreSpan.innerText = score;
-    cactus.style.left = '100%';
-    cactus.style.animation = 'blockAnim 1.5s infinite linear';
-    isPlaying = true;
+function generateMathQuestion() {
+    num1 = Math.floor(Math.random() * 20) + 5;
+    num2 = Math.floor(Math.random() * 20) + 5;
+    const operations = ['+', '-', '*'];
+    const op = operations[Math.floor(Math.random() * operations.length)];
     
-    // Tạo chuyển động cho cây xương rồng bằng css injection để dễ reset
-    const style = document.createElement('style');
-    style.id = 'dino-animation-sheet';
-    style.innerHTML = `@keyframes blockAnim { 0% { left: 100%; } 100% { left: -20px; } }`;
-    document.head.appendChild(style);
+    if(op === '+') currentAnswer = num1 + num2;
+    else if(op === '-') currentAnswer = num1 - num2;
+    else currentAnswer = num1 * num2;
 
-    clearInterval(gameLoop);
-    
-    // Kiểm tra va chạm định kỳ mỗi 10ms
-    gameLoop = setInterval(() => {
-        let dinoTop = parseInt(window.getComputedStyle(dino).getPropertyValue('bottom'));
-        let cactusLeft = parseInt(window.getComputedStyle(cactus).getPropertyValue('left'));
-
-        // Cộng điểm khi né được xương rồng
-        if (cactusLeft < 50 && cactusLeft > 40 && isPlaying) {
-            score++;
-            scoreSpan.innerText = score;
-        }
-
-        // Điều kiện va chạm vật lý
-        if (cactusLeft < 90 && cactusLeft > 50 && dinoTop <= 40) {
-            // Thua game
-            cactus.style.animation = 'none';
-            const oldSheet = document.getElementById('dino-animation-sheet');
-            if(oldSheet) oldSheet.remove();
-            isPlaying = false;
-            clearInterval(gameLoop);
-            alert('Game Over! Điểm của bạn là: ' + score);
-        }
-    }, 50);
+    document.getElementById('math-quest').innerText = `${num1} ${op} ${num2}`;
+    document.getElementById('math-answer').value = '';
 }
 
-// Tự động chạy game khi load trang
-startGame();
+function checkMathAnswer() {
+    const userAnswer = parseInt(document.getElementById('math-answer').value);
+    if (userAnswer === currentAnswer) {
+        currentScore += 10;
+        alert("Chính xác! +10 điểm");
+    } else {
+        currentScore = Math.max(0, currentScore - 5);
+        alert(`Sai rồi! Đáp án đúng phải là: ${currentAnswer}`);
+    }
+    document.getElementById('game-score').innerText = currentScore;
+    generateMathQuestion();
+}
+
+// --- 6. TRÒ CHƠI KHỦNG LONG NHẢY (CANVAS GAME) ---
+const canvas = document.getElementById('dinoCanvas');
+const ctx = canvas.getContext('2d');
+
+let dino = { x: 50, y: 150, width: 20, height: 30, dy: 0, jumpForce: 10, g: 0.6, grounded: false };
+let obstacles = [];
+let dinoGameInterval;
+let isGameOver = false;
+let spawnTimer = 0;
+
+function drawDino() {
+    ctx.fillStyle = '#555555'; // Màu khủng long
+    ctx.fillRect(dino.x, dino.y, dino.width, dino.height);
+}
+
+function dinoJump() {
+    if (dino.grounded && !isGameOver) {
+        dino.dy = -dino.jumpForce;
+        dino.grounded = false;
+    }
+}
+
+// Bắt sự kiện phím Cách (Space) để nhảy tiện lợi
+window.addEventListener('keydown', (e) => {
+    if(e.code === "Space") {
+        e.preventDefault(); // Tránh cuộn trang khi nhấn Space chơi game
+        dinoJump();
+    }
+});
+
+function spawnObstacle() {
+    spawnTimer++;
+    if (spawnTimer > 90) {
+        obstacles.push({ x: 800, y: 160, width: 15, height: 20, speed: 5 });
+        spawnTimer = 0;
+    }
+}
+
+function updateDinoGame() {
+    if (isGameOver) return;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Đường mặt đất
+    ctx.strokeStyle = '#999';
+    ctx.beginPath(); ctx.moveTo(0, 180); ctx.lineTo(800, 180); ctx.stroke();
+
+    // Vật lý Trọng lực Khủng long
+    dino.y += dino.dy;
+    if (dino.y + dino.height < 180) {
+        dino.dy += dino.g;
+        dino.grounded = false;
+    } else {
+        dino.y = 180 - dino.height;
+        dino.dy = 0;
+        dino.grounded = true;
+    }
+    drawDino();
+
+    // Xử lý chướng ngại vật (Xương rồng)
+    spawnObstacle();
+    for (let i = obstacles.length - 1; i >= 0; i--) {
+        let obs = obstacles[i];
+        obs.x -= obs.speed;
+
+        ctx.fillStyle = '#1b5e20'; // Màu cây xương rồng
+        ctx.fillRect(obs.x, obs.y, obs.width, obs.height);
+
+        // Kiểm tra va chạm dữ liệu hình khối
+        if (dino.x < obs.x + obs.width && dino.x + dino.width > obs.x &&
+            dino.y < obs.y + obs.height && dino.y + dino.height > obs.y) {
+            isGameOver = true;
+            ctx.fillStyle = 'red';
+            ctx.font = '24px sans-serif';
+            ctx.fillText('GAME OVER!', 330, 100);
+            clearInterval(dinoGameInterval);
+        }
+
+        if (obs.x + obs.width < 0) obstacles.splice(i, 1);
+    }
+}
+
+function restartDinoGame() {
+    clearInterval(dinoGameInterval);
+    isGameOver = false;
+    obstacles = [];
+    dino.y = 150; dino.dy = 0;
+    spawnTimer = 0;
+    dinoGameInterval = setInterval(updateDinoGame, 1000/60);
+}
+
+// Bấm trực tiếp vào vùng canvas để nhảy
+canvas.addEventListener('click', dinoJump);
+// Khởi chạy game ngay
+restartDinoGame();
