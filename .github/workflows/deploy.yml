@@ -1,37 +1,50 @@
+# Tên của luồng công việc (Workflow), hiển thị trong tab Actions của GitHub
 name: Deploy static site to GitHub Pages
 
+# Cấu hình điều kiện kích hoạt workflow
 on:
   push:
     branches:
-      - main
+      - main # Tự động chạy mỗi khi có code mới được push lên nhánh 'main'
 
+# Cấp quyền hạn cho token bảo mật (GITHUB_TOKEN) được sử dụng trong luồng chạy
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: read   # Chỉ cho phép đọc nội dung mã nguồn
+  pages: write      # Cấp quyền ghi để có thể tạo/cập nhật GitHub Pages
+  id-token: write   # Cấp quyền xác thực danh tính bảo mật để triển khai an toàn
 
+# Cấu hình quản lý hàng đợi triển khai (Concurrency)
 concurrency:
-  group: pages
-  cancel-in-progress: true
+  group: pages                # Nhóm các luồng chạy liên quan đến Pages vào một hàng đợi
+  cancel-in-progress: true    # Nếu có bản push mới khi bản cũ đang chạy, bản cũ sẽ bị hủy để tiết kiệm tài nguyên
 
+# Danh sách các tiến trình cần thực hiện
 jobs:
+  # Định nghĩa một job có tên là 'deploy'
   deploy:
+    # Cấu hình môi trường triển khai
     environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
+      name: github-pages # Liên kết với môi trường 'github-pages' trên GitHub để quản lý lịch sử deploy
+      url: ${{ steps.deployment.outputs.page_url }} # Trả về đường dẫn (URL) trang web sau khi deploy thành công
+    
+    runs-on: ubuntu-latest # Sử dụng máy ảo Ubuntu phiên bản mới nhất để thực thi các bước bên dưới
+    
     steps:
+      # Bước 1: Kéo mã nguồn từ repository về máy ảo của GitHub Actions
       - name: Checkout source code
         uses: actions/checkout@v4
 
+      # Bước 2: Khởi tạo và cấu hình các thông số cần thiết cho môi trường GitHub Pages
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
+      # Bước 3: Đóng gói và tải các tệp tin web lên hệ thống lưu trữ tạm thời (Artifact) của GitHub
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: '.' # Đảm bảo upload toàn bộ thư mục gốc (chứa index.html và style.css)
+          path: '.' # Định nghĩa đường dẫn nén file. Dấu '.' nghĩa là đóng gói toàn bộ thư mục gốc (chứa index.html, style.css...)
 
+      # Bước 4: Lấy gói tệp tin vừa tải lên ở Bước 3 để tiến hành xuất bản trực tiếp lên GitHub Pages
       - name: Deploy to GitHub Pages
-        id: deployment
+        id: deployment # Đặt ID để bước 'environment.url' phía trên có thể lấy dữ liệu đầu ra (outputs)
         uses: actions/deploy-pages@v4
